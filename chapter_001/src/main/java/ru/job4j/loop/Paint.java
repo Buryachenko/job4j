@@ -1,14 +1,11 @@
 package ru.job4j.loop;
-
 import java.util.function.BiPredicate;
-
 /**
  * Class Класс для построения пирамиды в псевдографике.
  * @author Buryachenko
  * @since 16.09.2018
  * @version 1
  */
- 
 public class Paint {
     public String rightTrl(int height) {
         return this.loopBy(
@@ -17,7 +14,6 @@ public class Paint {
                 (row, column) -> row >= column
         );
     }
-
     public String leftTrl(int height) {
         return this.loopBy(
                 height,
@@ -25,7 +21,6 @@ public class Paint {
                 (row, column) -> row >= height - column - 1
         );
     }
-
     public String pyramid(int height) {
         return this.loopBy(
                 height,
@@ -33,7 +28,6 @@ public class Paint {
                 (row, column) -> row >= height - column - 1 && row + height - 1 >= column
         );
     }
-
     private String loopBy(int height, int weight, BiPredicate<Integer, Integer> predict) {
         StringBuilder screen = new StringBuilder();
         for (int row = 0; row != height; row++) {
