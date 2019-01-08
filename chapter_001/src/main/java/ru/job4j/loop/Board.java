@@ -1,12 +1,10 @@
 package ru.job4j.loop;
-
 /**
  * Class Класс для построения шахматной доски в псевдографике.
  * @author Buryachenko
  * @since 16.09.2018
  * @version 1
  */
-
 public class Board {
     public String paint(int width, int height) {
         StringBuilder screen = new StringBuilder();
@@ -19,7 +17,6 @@ public class Board {
                     screen.append(" ");
                 }
             }
-            // добавляем перевод на новую строку.
             screen.append(ln);
         }
         return screen.toString();
