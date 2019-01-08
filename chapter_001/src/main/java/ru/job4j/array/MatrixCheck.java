@@ -1,5 +1,10 @@
 package ru.job4j.array;
-
+/**
+ * Class  Класс проверяет, что все элементы по диагоналям равны true или false.
+ * @author Buryachenko
+ * @since 08.01.2019
+ * @version 1
+ */
 public class MatrixCheck {
     public boolean mono(boolean[][] data) {
         boolean result = false;		
@@ -7,7 +12,6 @@ public class MatrixCheck {
 		int cnt_1 = 0;
 		int cnt_2 = 0;
 		int cnt_3 = 0;
-
 		if(data.length > 1 && data[0].length > 1) {
 			int column = data[0].length - 1;
 			for (int i = 0; i < data.length; i++) {
@@ -28,7 +32,6 @@ public class MatrixCheck {
 				}
 			}
 		}
-
 		if(cnt_0 == 0 || cnt_1 == 0) {
 			if(cnt_0 == 0 && cnt_1 == 0) {
 				result = false;
@@ -45,8 +48,6 @@ public class MatrixCheck {
 				result = true;
 			}
 		}
-
-
         return result;
     }
 }
