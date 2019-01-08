@@ -14,18 +14,15 @@ public class Counter {
 	* @return Вернуть cумму.
 	*/
     public int add(int start, int finish) {
-
  		int even = start & 0xFFFFFFFE;
-		if(even < start){
+		if (even < start) {
 			start = even + 2;
 		}
-
 		int sum = 0;
-		while(start <= finish) {
+		while (start <= finish) {
 			sum = sum + start;
 			start = start + 2;
 		}
-		
         return sum;
     }
 }

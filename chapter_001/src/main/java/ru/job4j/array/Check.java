@@ -10,7 +10,7 @@ public class Check {
         boolean result = true;
 		boolean prev = data[0];
         for (int i = 0; i < data.length; i++) {
-			if(data[i] != prev){
+			if (data[i] != prev) {
 				result = false;
 				break;
 			}
