@@ -7,13 +7,6 @@ package ru.job4j.array;
  * @version 1
  */
 public class BubbleSort {
-
-    /**
-     * Cортирует массив целых чисел, используя алгоритм сортировки пузырьком
-     * @param array массив целых чисел
-     * @return отсортированный массив
-     */
-	 
     public int[] sort(int[] array) {
 		int n = array.length;
 		for (int i = 1; i < n; i++) {
