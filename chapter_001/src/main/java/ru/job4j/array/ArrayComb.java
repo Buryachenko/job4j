@@ -20,8 +20,7 @@ public class ArrayComb {
             if (indexFirst < first.length) {
                 result[i] = first[indexFirst];
                 indexFirst++;
-            }
-            else {
+            } else {
                 if (indexSecond < second.length) {
                     result[i] = second[indexSecond];
                     indexSecond++;
