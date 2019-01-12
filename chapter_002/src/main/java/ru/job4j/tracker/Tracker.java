@@ -35,7 +35,9 @@ public class Tracker {
 	public void delete(String id) {
 		for (int i = 0; i < position; i++) {
 			if (id.equals(items[i].getId())) {
-				System.arraycopy(items, i + 1, items, i, position);
+				if (i < position - 1) {
+					System.arraycopy(items, i + 1, items, i, position - (i + 1));
+				}
 				items[position - 1] = null;
 				this.position--;
 				break;
@@ -66,8 +68,11 @@ public class Tracker {
 		return result;
 	}
 	private String generateId() {
-		Date date = new Date(2019, 1, 1);
-		return "11111" + Long.toString(date.getTime());
-
+		try {
+			Thread.sleep(100);
+		} catch (InterruptedException e) {
+			System.out.println("Error Sleep");
+		}
+		return "11111" + Long.toString(System.currentTimeMillis());
 	}
 }
