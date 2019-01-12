@@ -6,7 +6,7 @@ package ru.job4j.profession;
  *  @version 1
  */
 public class Profession {
-	public String name;
+	private String name;
 }
 
 
