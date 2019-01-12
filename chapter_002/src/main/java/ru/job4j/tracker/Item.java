@@ -12,6 +12,12 @@ public class Item {
 	private long created;
 	private String[] comments;
 
+	public Item(String name,  String description) {
+		this.name = name;
+		this.desc = description;
+		this.created = System.currentTimeMillis();
+	}
+
 	public  Item(String name, String desc, long created) {
 		this.name = name;
 		this.desc = desc;

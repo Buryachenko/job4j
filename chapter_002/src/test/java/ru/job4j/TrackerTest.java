@@ -23,9 +23,11 @@ public class TrackerTest {
         Tracker tracker = new Tracker();
         Item previous = new Item("test1", "testDescription", 123L);
         tracker.add(previous);
-        Item next = new Item("test2", "testDescription2", 1234L);
+        Item next = new Item("test2", "testDescription2");
         next.setId(previous.getId());
         tracker.replace(previous.getId(), next);
         assertThat(tracker.findById(previous.getId()).getName(), is("test2"));
+        tracker.delete(tracker.findAll()[0].getId());
+        assertThat(0, is(tracker.findAll().length));
     }
 }

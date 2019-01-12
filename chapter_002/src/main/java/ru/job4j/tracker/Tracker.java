@@ -11,6 +11,9 @@ public class Tracker {
 	private final Item[] items = new Item[100];
 	private int position = 0;
 
+	public int getPosition() {
+		return position;
+	}
 	public Item add(Item item) {
 		item.setId(this.generateId());
 		if (this.position < items.length) {
@@ -21,7 +24,8 @@ public class Tracker {
 		return item;
 	}
 	public void replace(String id, Item item) {
-		for (int i = 0; i < items.length; i++) {
+		item.setId(id);
+		for (int i = 0; i < position; i++) {
 			if (id.equals(items[i].getId())) {
 				items[i] = item;
 				break;
@@ -29,28 +33,22 @@ public class Tracker {
 		}
 	}
 	public void delete(String id) {
-		for (int i = 0; i < items.length; i++) {
+		for (int i = 0; i < position; i++) {
 			if (id.equals(items[i].getId())) {
-				cutItem(i);
+				System.arraycopy(items, i + 1, items, i, position);
+				items[position - 1] = null;
 				this.position--;
 				break;
 			}
 		}
 	}
 	public Item[] findAll() {
-		int lenght = items.length;
-		for (int i = 0; i < items.length; i++) {
-			if (items[i] == null) {
-				lenght = i + 1;
-				break;
-			}
-		}
-		return Arrays.copyOf(items, lenght);
+		return Arrays.copyOf(items, position);
 	}
 	public Item[] findByName(String key) {
 		int pos = 0;
 		Item[] result = new Item[items.length];
-		for (int i = 0; i < items.length; i++) {
+		for (int i = 0; i < position; i++) {
 			if (key.equals(items[i].getName())) {
 				result[pos++] = items[i];
 			}
@@ -59,7 +57,7 @@ public class Tracker {
 	}
 	public Item findById(String id) {
 		Item result = null;
-		for (int i = 0; i < items.length; i++) {
+		for (int i = 0; i < position; i++) {
 			if (id.equals(items[i].getId())) {
 				result = items[i];
 				break;
@@ -71,14 +69,5 @@ public class Tracker {
 		Date date = new Date(2019, 1, 1);
 		return "11111" + Long.toString(date.getTime());
 
-	}
-	private void cutItem(int indexItem) {
-		for (int i = indexItem; i < items.length; i++) {
-			if (i < items.length - 2) {
-				items[i] = items[i + 1];
-			} else {
-				items[i] = null;
-			}
-		}
 	}
 }
