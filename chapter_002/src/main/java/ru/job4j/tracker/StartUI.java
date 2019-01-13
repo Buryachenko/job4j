@@ -62,16 +62,15 @@ public class StartUI {
         } else {
             System.out.println("Нет заявок.");
         }
-        System.out.println("-------------------------------");
+        System.out.println("---------------------------------");
     }
     private void editItem() {
         System.out.println("--------- Изменение заявки ---------");
         String id = this.input.ask("Введите индефикатор заявки :");
-        if (tracker.findById(id) != null) {
-            String name = this.input.ask("Введите имя заявки :");
-            String desc = this.input.ask("Введите описание заявки");
-            Item item = new Item(name, desc);
-            this.tracker.replace(id, item);
+        String name = this.input.ask("Введите имя заявки :");
+        String desc = this.input.ask("Введите описание заявки");
+        Item item = new Item(name, desc);
+        if (this.tracker.replace(id, item)) {
             System.out.println("Заявка изменена.");
         } else {
             System.out.println("Заявка не найдена.");
@@ -81,14 +80,8 @@ public class StartUI {
     private void deleteItem() {
         System.out.println("--------- Удаление заявки ---------");
         String id = this.input.ask("Введите индефикатор заявки :");
-        if (tracker.findById(id) != null) {
-            int pos = tracker.getPosition();
-            tracker.delete(id);
-            if (tracker.getPosition() < pos) {
-                System.out.println("Заявка успешно удалена.");
-            } else {
-                System.out.println("Заявка не удалена.");
-            }
+        if (tracker.delete(id)) {
+            System.out.println("Заявка успешно удалена.");
         } else {
             System.out.println("Заявка не найдена.");
         }
