@@ -25,25 +25,25 @@ public class ArrayCombTest {
     @Test
     public void whenArrayFirstLarge() {
         int[] first = new int[] {1, 5, 4, 2, 3, 6, 9, 8, 10, 7};
-        int[] second = new int[] {11, 13, 14, 15, 12};
+        int[] second = new int[] {5, 1, 8, 3, 9};
         BubbleSort bubble = new BubbleSort();
         int[] arrayFirst = bubble.sort(first);
         int[] arraySecond = bubble.sort(second);
         ArrayComb comb = new ArrayComb();
         int[] result = comb.combiningTwoArrayToOne(arraySecond, arrayFirst);
-        int[] expect = new int[] {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15};
+        int[] expect = new int[] {1, 1, 2, 3, 3, 4, 5, 5, 6, 7, 8, 8, 9, 9, 10};
         assertThat(result, is(expect));
     }
     @Test
     public void whenArraySecondLarge() {
-        int[] first = new int[] {15, 13, 14};
+        int[] first = new int[] {10, 11, 12};
         int[] second = new int[] {1, 2, 3, 9, 4, 6, 7, 10, 5, 11, 8, 12};
         BubbleSort bubble = new BubbleSort();
         int[] arrayFirst = bubble.sort(first);
         int[] arraySecond = bubble.sort(second);
         ArrayComb comb = new ArrayComb();
         int[] result = comb.combiningTwoArrayToOne(arraySecond, arrayFirst);
-        int[] expect = new int[] {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15};
+        int[] expect = new int[] {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 10, 11, 11, 12, 12};
         assertThat(result, is(expect));
     }
 }

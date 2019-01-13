@@ -11,21 +11,26 @@ public class ArrayComb {
         int[] result = new int[sizeArray];
         int indexFirst = 0;
         int indexSecond = 0;
-        if (first[first.length - 1] > second[0]) {
-            int[] temp = second;
-            second = first;
-            first = temp;
-        }
-        for (int i = 0; i < sizeArray; i++) {
-            if (indexFirst < first.length) {
-                result[i] = first[indexFirst];
+        int number = 0;
+        while (indexFirst < first.length && indexSecond < second.length) {
+            if (first[indexFirst] < second[indexSecond]) {
+                result[number] = first[indexFirst];
                 indexFirst++;
             } else {
-                if (indexSecond < second.length) {
-                    result[i] = second[indexSecond];
-                    indexSecond++;
-                }
+                result[number] = second[indexSecond];
+                indexSecond++;
             }
+            number++;
+        }
+        while (indexFirst < first.length) {
+            result[number] = first[indexFirst];
+            indexFirst++;
+            number++;
+        }
+        while (indexSecond < second.length) {
+            result[number] = second[indexSecond];
+            indexSecond++;
+            number++;
         }
         return result;
     }
