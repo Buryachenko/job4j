@@ -16,7 +16,15 @@ import org.junit.Before;
 public class StartUITest {
     private final PrintStream stdout = System.out;
     private final ByteArrayOutputStream out = new ByteArrayOutputStream();
-
+    private static final String MENU =  "Меню." + System.lineSeparator() +
+                                        "0. Add new Item" + System.lineSeparator() +
+                                        "1. Show all items" + System.lineSeparator() +
+                                        "2. Edit item" + System.lineSeparator() +
+                                        "3. Delete item" + System.lineSeparator() +
+                                        "4. Find item by Id" + System.lineSeparator() +
+                                        "5. Find items by name" + System.lineSeparator() +
+                                        "6. Exit Program" + System.lineSeparator() +
+                                        "Select:" + System.lineSeparator();
     @Before
     public void loadOutput() {
         System.out.println("execute before method");
@@ -65,22 +73,16 @@ public class StartUITest {
                 new String(out.toByteArray()),
                 is(
                     new StringBuilder()
-                            .append("Меню.\r\n0. Add new Item\r\n1." +
-                                    " Show all items\r\n2. Edit item\r\n3. " +
-                                    "Delete item\r\n4. Find item by Id\r\n5. " +
-                                    "Find items by name\r\n6. Exit Program\r\n" +
-                                    "Select:\r\n")
-                            .append("--------- Список заявок ---------\r\n")
-                            .append("0. " + " NAME = " + items[0].getName() + "; " +
-                                    "DESC = " + items[0].getDesc() + "; " +
-                                    "ID = " + items[0].getId() + "\r\n")
-                            .append("---------------------------------\r\n")
-                            .append("Меню.\r\n0. Add new Item\r\n1." +
-                                    " Show all items\r\n2. Edit item\r\n3. " +
-                                    "Delete item\r\n4. Find item by Id\r\n5. " +
-                                    "Find items by name\r\n6. Exit Program\r\n" +
-                                    "Select:")
+                            .append(MENU)
+                            .append("--------- Список заявок ---------")
                             .append(System.lineSeparator())
+                            .append("0. " + " NAME = " + items[0].getName()
+                                    + "; " + "DESC = " + items[0].getDesc()
+                                    + "; " + "ID = " + items[0].getId())
+                            .append(System.lineSeparator())
+                            .append("---------------------------------")
+                            .append(System.lineSeparator())
+                            .append(MENU)
                             .toString()
                 )
         );
@@ -97,21 +99,15 @@ public class StartUITest {
                 new String(out.toByteArray()),
                 is(
                         new StringBuilder()
-                                .append("Меню.\r\n0. Add new Item\r\n1." +
-                                        " Show all items\r\n2. Edit item\r\n3. " +
-                                        "Delete item\r\n4. Find item by Id\r\n5. " +
-                                        "Find items by name\r\n6. Exit Program\r\n" +
-                                        "Select:\r\n")
-                                .append("-------------------------------\r\n")
-                                .append("Name = " + items[0].getName() + "; " +
-                                        "Desc = " + items[0].getDesc() + "\r\n")
-                                .append("-------------------------------\r\n")
-                                .append("Меню.\r\n0. Add new Item\r\n1." +
-                                        " Show all items\r\n2. Edit item\r\n3. " +
-                                        "Delete item\r\n4. Find item by Id\r\n5. " +
-                                        "Find items by name\r\n6. Exit Program\r\n" +
-                                        "Select:")
+                                .append(MENU)
+                                .append("-------------------------------")
                                 .append(System.lineSeparator())
+                                .append("Name = " + items[0].getName() + "; " +
+                                        "Desc = " + items[0].getDesc())
+                                .append(System.lineSeparator())
+                                .append("-------------------------------")
+                                .append(System.lineSeparator())
+                                .append(MENU)
                                 .toString()
                 )
         );
@@ -128,22 +124,15 @@ public class StartUITest {
                 new String(out.toByteArray()),
                 is(
                         new StringBuilder()
-                                .append("Меню.\r\n0. Add new Item\r\n1." +
-                                        " Show all items\r\n2. Edit item\r\n3. " +
-                                        "Delete item\r\n4. Find item by Id\r\n5. " +
-                                        "Find items by name\r\n6. Exit Program\r\n" +
-                                        "Select:\r\n")
-                                .append("-----------------------------------\r\n")
-                                //.append("Введите индефикатор заявки :\r\n")
-                                .append("ID = " + items[0].getId() + "; " +
-                                        "Desc = " + items[0].getDesc() + "\r\n")
-                                .append("-----------------------------------\r\n")
-                                .append("Меню.\r\n0. Add new Item\r\n1." +
-                                        " Show all items\r\n2. Edit item\r\n3. " +
-                                        "Delete item\r\n4. Find item by Id\r\n5. " +
-                                        "Find items by name\r\n6. Exit Program\r\n" +
-                                        "Select:")
+                                .append(MENU)
+                                .append("-----------------------------------")
                                 .append(System.lineSeparator())
+                                .append("ID = " + items[0].getId() + "; " +
+                                        "Desc = " + items[0].getDesc())
+                                .append(System.lineSeparator())
+                                .append("-----------------------------------")
+                                .append(System.lineSeparator())
+                                .append(MENU)
                                 .toString()
                 )
         );
