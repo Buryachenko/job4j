@@ -1,4 +1,8 @@
 package ru.job4j.tracker;
+
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  *  Class Класс точка входа в программу.
  *  @author Buryachenko
@@ -20,28 +24,18 @@ public class StartUI {
         this.input = input;
         this.tracker = tracker;
     }
+
     public void init() {
+        MenuTracker menu = new MenuTracker(this.input, this.tracker);
+        menu.fillActions();
         boolean exit = false;
         while (!exit) {
-            this.showMenu();
-            String answer = this.input.ask("Введите пункт меню : ");
-            if (ADD.equals(answer)) {
-                this.createItem();
-            } else if (SHOW.equals(answer)) {
-                this.showItems();
-            } else if (EDIT.equals(answer)) {
-                this.editItem();
-            } else if (DELETE.equals(answer)) {
-                this.deleteItem();
-            } else if (ID.equals(answer)) {
-                this.findItemById();
-            } else if (NAME.equals(answer)) {
-                this.findItemByName();
-            } else if (EXIT.equals(answer)) {
-                exit = true;
-            }
+            menu.show();
+            int key = Integer.valueOf(input.ask("Введите пункт меню : "));
+            menu.select(key);
         }
     }
+    
     private void createItem() {
         System.out.println("--------- Добавление новой заявки ---------");
         String name = this.input.ask("Введите имя заявки :");
