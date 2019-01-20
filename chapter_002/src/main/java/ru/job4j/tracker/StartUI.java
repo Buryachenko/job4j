@@ -10,6 +10,7 @@ import java.util.List;
  *  @version 1
  */
 public class StartUI {
+    private boolean exit = true;
     private static final String ADD = "0";
     private static final String SHOW = "1";
     private static final String EDIT = "2";
@@ -27,15 +28,19 @@ public class StartUI {
 
     public void init() {
         MenuTracker menu = new MenuTracker(this.input, this.tracker);
-        menu.fillActions();
-        boolean exit = false;
-        while (!exit) {
+        menu.fillActions(this);
+        do {
             menu.show();
             int key = Integer.valueOf(input.ask("Введите пункт меню : "));
             menu.select(key);
-        }
+
+        } while (this.exit);
     }
-    
+
+    public void stop() {
+        this.exit = false;
+    }
+
     private void createItem() {
         System.out.println("--------- Добавление новой заявки ---------");
         String name = this.input.ask("Введите имя заявки :");

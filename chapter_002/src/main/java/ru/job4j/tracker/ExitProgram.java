@@ -6,12 +6,15 @@ package ru.job4j.tracker;
  *  @version 1
  */
 public class ExitProgram implements UserAction {
+    private StartUI ui;
     private int key = 6;
     private String info = "Exit Program";
-    
-    public ExitProgram(int key, String info) {
+
+    public ExitProgram(int key, String info, StartUI ui) {
+
         this.key = key;
-        this.info = info; 
+        this.info = info;
+        this.ui = ui;
     }
     
     @Override
@@ -22,7 +25,7 @@ public class ExitProgram implements UserAction {
     @Override
     public void execute(Input input, Tracker tracker) {
         System.out.println("------------ Exit program --------------");
-        System.exit(0);
+        this.ui.stop();
     }
 
     @Override
