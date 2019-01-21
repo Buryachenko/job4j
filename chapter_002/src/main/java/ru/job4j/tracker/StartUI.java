@@ -127,8 +127,6 @@ public class StartUI {
         System.out.println("Select:");
     }
     public static void main(String[] args) {
-        //Input input = new ValidateInput();
-        //new StartUI(input, new Tracker()).init();
         new StartUI(
                 new ValidateInput(
                         new ConsoleInput()
