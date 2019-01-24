@@ -5,19 +5,10 @@ package ru.job4j.tracker;
  *  @since 15.01.2019
  *  @version 1
  */
-public class FindItemById implements UserAction {
-
-    private int key = 4;
-    private String info = "Find item by Id";
+public class FindItemById extends BaseAction {
     
     FindItemById(int key, String info) {
-        this.key = key;
-        this.info = info;
-    }
-
-    @Override
-    public int key() {
-        return key;
+		super(key, info);
     }
 
     @Override
@@ -32,11 +23,5 @@ public class FindItemById implements UserAction {
             System.out.println("Заявка не найдена.");
         }
         System.out.println("-------------------------------");
-    }
-
-    @Override
-    public String info() {
-        return info;
-    }
-    
+    } 
 }

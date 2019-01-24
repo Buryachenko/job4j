@@ -5,25 +5,12 @@ package ru.job4j.tracker;
  *  @since 15.01.2019
  *  @version 1
  */
-public class UpdateItem implements UserAction {
-    private int key = 2;
-    private String info = "Edit item.";
-    
-    public UpdateItem(int i, String info) {
-        this.key = key;
-        this.info = info;
+public class UpdateItem extends BaseAction {
+
+    public UpdateItem(int key, String info) {
+		super(key, info);
     }
 
-    @Override
-    public int key() {
-       return key; 
-    }
-
-     @Override
-    public String info() {
-        return info;
-    }
-    
     @Override
     public void execute(Input input, Tracker tracker) {
         System.out.println("--------- Изменение заявки ---------");

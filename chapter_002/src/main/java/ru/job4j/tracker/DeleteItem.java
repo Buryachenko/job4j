@@ -5,19 +5,10 @@ package ru.job4j.tracker;
  *  @since 15.01.2019
  *  @version 1
  */
-public class DeleteItem implements UserAction {
-    private int key = 3; 
-    String info = "Delete item";
+public class DeleteItem extends BaseAction {
     
-         
     DeleteItem(int key, String info) {
-        this.key = key;
-        this.info = info;
-    }
-    
-    @Override
-    public int key() {
-        return key;
+        super(key, info);
     }
 
     @Override
@@ -30,11 +21,5 @@ public class DeleteItem implements UserAction {
             System.out.println("Заявка не найдена.");
         }
         System.out.println("-----------------------------------");
-    }
-
-    @Override
-    public String info() {
-        return info;
-    }
-    
+    } 
 }
