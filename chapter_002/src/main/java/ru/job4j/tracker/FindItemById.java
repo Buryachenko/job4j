@@ -15,10 +15,9 @@ public class FindItemById extends BaseAction {
     public void execute(Input input, Tracker tracker) {
         System.out.println("-------------------------------");
         String id = input.ask("Введите индефикатор заявки :");
-        if (tracker.findById(id) != null) {
-            String name = tracker.findById(id).getName();
-            String desc = tracker.findById(id).getDesc();
-            System.out.println("Name = " + name + "; Desc = " + desc);
+        Item item = tracker.findById(id);
+        if (item != null) {
+            System.out.println("Name = " + item.getName() + "; Desc = " + item.getDesc());
         } else {
             System.out.println("Заявка не найдена.");
         }

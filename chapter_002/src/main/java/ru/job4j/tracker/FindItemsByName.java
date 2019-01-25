@@ -15,8 +15,8 @@ public class FindItemsByName extends BaseAction {
     public void execute(Input input, Tracker tracker) {
         System.out.println("-----------------------------------");
         String name = input.ask("Введите имя заявки :");
-        if (tracker.findByName(name) != null) {
-            Item[] items = tracker.findByName(name);
+        Item[] items = tracker.findByName(name);
+        if (items != null) {
             for (int i = 0; i < items.length; i++) {
                 System.out.println("ID = " + items[i].getId() + "; Desc = " + items[i].getDesc());
             }
