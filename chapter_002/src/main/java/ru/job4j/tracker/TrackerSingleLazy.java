@@ -1,4 +1,5 @@
 package ru.job4j.tracker;
+
 /**
  * Class Класс singleton c ленивой загрузкой (lazy) в jvm
  * @athor Buryachenko

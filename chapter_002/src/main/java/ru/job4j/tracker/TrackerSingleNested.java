@@ -1,4 +1,5 @@
 package ru.job4j.tracker;
+
 /**
  * Class Класс singleton c ленивой загрузкой в jvm, объект класса создается при создании объекта внутреннего класса
  * @athor Buryachenko

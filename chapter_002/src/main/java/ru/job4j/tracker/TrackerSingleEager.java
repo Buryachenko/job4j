@@ -1,4 +1,5 @@
 package ru.job4j.tracker;
+
 /**
  * Class Класс singleton c энергичной загрузкой (eager) в jvm
  * @athor Buryachenko
