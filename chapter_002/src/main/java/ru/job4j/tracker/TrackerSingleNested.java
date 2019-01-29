@@ -1,6 +1,6 @@
 package ru.job4j.tracker;
 /**
- * Class Класс singleton c ленивой загрузкой (lazy) в jvm
+ * Class Класс singleton c ленивой загрузкой в jvm, объект класса создается при создании объекта внутреннего класса
  * @athor Buryachenko
  * @since 30.01.19
  * @version 1
