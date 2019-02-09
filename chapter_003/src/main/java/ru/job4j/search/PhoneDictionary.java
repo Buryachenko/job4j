@@ -26,33 +26,8 @@ public class PhoneDictionary {
     public List<Person> find(String key) {
         List<Person> result = new ArrayList<>();
         for (Person person : this.persons) {
-            int numFild = 0;
-            switch (numFild) {
-                case 0:
-                    if ((person.getName().contains(key))) {
-                        result.add(person);
-                    } else {
-                        numFild++;
-                    }
-                case 1:
-                    if ((person.getSurname().contains(key))) {
-                        result.add(person);
-                    } else {
-                        numFild++;
-                    }
-                case 2:
-                    if ((person.getAddress().contains(key))) {
-                        result.add(person);
-                    } else {
-                        numFild++;
-                    }
-                case 3:
-                    if ((person.getPhone().contains(key))) {
-                        result.add(person);
-                    } else {
-                        break;
-                    }
-                default: break;
+            if (person.getName().contains(key) || person.getSurname().contains(key) || person.getAddress().contains(key) || person.getPhone().contains(key)) {
+                result.add(person);
             }
         }
         return result;
