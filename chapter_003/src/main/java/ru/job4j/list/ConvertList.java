@@ -8,7 +8,7 @@ import java.util.ArrayList;
  * @version 1
  */
 public class ConvertList {
-    public List<Integer> convert (List<int[]> list) {
+    public List<Integer> convert(List<int[]> list) {
         List<Integer> result = new ArrayList();
         for (int[] str : list) {
             for (int num : str) {
