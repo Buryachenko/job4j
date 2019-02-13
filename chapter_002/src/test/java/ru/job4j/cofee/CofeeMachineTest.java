@@ -1,7 +1,9 @@
 package ru.job4j.cofee;
+import java.util.Arrays;
 import org.junit.Test;
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
+import java.util.List;
 /**
  * Test.
  *
@@ -13,14 +15,14 @@ public class CofeeMachineTest {
     @Test
     public void whenPrice35Value100() {
         CofeeMachine cofeeMachine = new CofeeMachine();
-        int[] changes = cofeeMachine.changes(100, 35);
-        assertThat(changes, is(new int[] {10, 10, 10, 10, 10, 10, 5}));
+        List<Integer> changes = cofeeMachine.changes(100, 35);
+        assertThat(changes, is(Arrays.asList(10, 10, 10, 10, 10, 10, 5)));
     }
 
     @Test
     public void whenPrice32Value50() {
         CofeeMachine cofeeMachine = new CofeeMachine();
-        int[] changes = cofeeMachine.changes(50, 32);
-        assertThat(changes, is(new int[] {10, 5, 2, 1}));
+        List<Integer> changes = cofeeMachine.changes(50, 32);
+        assertThat(changes, is(Arrays.asList(10, 5, 2, 1)));
     }
 }

@@ -1,5 +1,7 @@
 package ru.job4j.cofee;
-
+import java.util.List;
+import java.util.ArrayList;
+import java.util.Arrays;
 /**
  *
  * Class Класс кофемашины
@@ -8,26 +10,22 @@ package ru.job4j.cofee;
  * @version 1
  */
 public class CofeeMachine {
-    int[] changes(int value, int price) {
-        int[] result = null;
+    private List<Integer> monets;
+
+    public CofeeMachine() {
+        monets = Arrays.asList(10, 5, 2, 1);
+    }
+
+    List<Integer> changes(int value, int price) {
+        List<Integer> result = new ArrayList<>();
         if (value > price) {
             int rest = value - price;
-            int d10 = rest / 10;
-            int d5 = (rest % 10) / 5;
-            int d2 = ((rest % 10) % 5) / 2;
-            int d1 = ((rest % 10) % 5) % 2;
-            result = new int[d10 + d5 + d2 + d1];
-            for (int i = 0; i < d10; i++) {
-               result[i] = 10;
-            }
-            for (int i = d10; i < d10 + d5; i++) {
-                result[i] = 5;
-            }
-            for (int i = d10 + d5; i < d10 + d5 + d2; i++) {
-                result[i] = 2;
-            }
-            for (int i = d10 + d5 + d2; i < d10 + d5 + d2 + d1; i++) {
-                result[i] = 1;
+            for (Integer moneta : monets) {
+                int amount = rest / moneta;
+                for (int i = 0; i < amount; i++) {
+                    result.add(moneta);
+                }
+                rest = rest % moneta;
             }
         }
         return result;
