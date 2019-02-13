@@ -14,14 +14,13 @@ public class ConvertList2Array {
         int cell = 0;
         int row = 0;
         for (Integer element : list) {
+            array[row][cell] = element;
             if (cell < cells) {
-                array[row][cell] = element;
                 cell++;
-            } else {
+            }
+            if (cell == cells) {
                 cell = 0;
                 row++;
-                array[row][cell] = element;
-                cell++;
             }
         }
         return array;
