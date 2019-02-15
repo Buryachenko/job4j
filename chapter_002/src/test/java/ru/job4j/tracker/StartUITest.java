@@ -7,6 +7,7 @@ import static org.hamcrest.core.Is.is;
 import org.junit.After;
 import static org.junit.Assert.assertThat;
 import org.junit.Before;
+import java.util.List;
 /**
  * Test.
  * @author Oleg Buryachenko (mailto:ovburyachenko@yandex.ru)
@@ -41,7 +42,7 @@ public class StartUITest {
         Tracker tracker = new Tracker();
         Input input = new StubInput(new String[]{"0", "Oleg", "student", "6"});
         new StartUI(input, tracker).init();
-        assertThat(tracker.findAll()[0].getName(), is("Oleg"));
+        assertThat(tracker.findAll().get(0).getName(), is("Oleg"));
     }
     @Test
     public void whenUpdateThenTrackerHasUpdatedValue() {
@@ -65,7 +66,7 @@ public class StartUITest {
         Tracker tracker = new Tracker();
         Item item = new Item("Oleg", "student");
         tracker.add(item);
-        Item[] items = tracker.findAll();
+        List<Item> items = tracker.findAll();
         Input input = new StubInput(new String[]{"1", "6"});
         new StartUI(input, tracker).init();
         assertThat(
@@ -75,9 +76,9 @@ public class StartUITest {
                             .append(MENU)
                             .append("--------- Список заявок ---------")
                             .append(System.lineSeparator())
-                            .append("0. " + " NAME = " + items[0].getName()
-                                    + "; " + "DESC = " + items[0].getDesc()
-                                    + "; " + "ID = " + items[0].getId())
+                            .append("0. " + " NAME = " + items.get(0).getName()
+                                    + "; " + "DESC = " + items.get(0).getDesc()
+                                    + "; " + "ID = " + items.get(0).getId())
                             .append(System.lineSeparator())
                             .append("---------------------------------")
                             .append(System.lineSeparator())
@@ -93,7 +94,7 @@ public class StartUITest {
         Tracker tracker = new Tracker();
         Item item = new Item("Oleg", "student");
         tracker.add(item);
-        Item[] items = tracker.findAll();
+        List<Item> items = tracker.findAll();
         Input input = new StubInput(new String[]{"4", item.getId(), "6"});
         new StartUI(input, tracker).init();
         assertThat(
@@ -103,8 +104,8 @@ public class StartUITest {
                                 .append(MENU)
                                 .append("-------------------------------")
                                 .append(System.lineSeparator())
-                                .append("Name = " + items[0].getName() + "; ")
-                                .append("Desc = " + items[0].getDesc())
+                                .append("Name = " + items.get(0).getName() + "; ")
+                                .append("Desc = " + items.get(0).getDesc())
                                 .append(System.lineSeparator())
                                 .append("-------------------------------")
                                 .append(System.lineSeparator())
@@ -120,7 +121,7 @@ public class StartUITest {
         Tracker tracker = new Tracker();
         Item item = new Item("Oleg", "student");
         tracker.add(item);
-        Item[] items = tracker.findAll();
+        List<Item> items = tracker.findAll();
         Input input = new StubInput(new String[]{"5", item.getName(), "6"});
         new StartUI(input, tracker).init();
         assertThat(
@@ -130,8 +131,8 @@ public class StartUITest {
                                 .append(MENU)
                                 .append("-----------------------------------")
                                 .append(System.lineSeparator())
-                                .append("ID = " + items[0].getId() + "; ")
-                                .append("Desc = " + items[0].getDesc())
+                                .append("ID = " + items.get(0).getId() + "; ")
+                                .append("Desc = " + items.get(0).getDesc())
                                 .append(System.lineSeparator())
                                 .append("-----------------------------------")
                                 .append(System.lineSeparator())

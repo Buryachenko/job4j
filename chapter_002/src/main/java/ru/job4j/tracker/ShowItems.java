@@ -16,9 +16,9 @@ public class ShowItems extends BaseAction {
         System.out.println("--------- Список заявок ---------");
         if (tracker.getPosition() > 0) {
             for (int i = 0; i < tracker.getPosition(); i++) {
-                String id = tracker.findAll()[i].getId();
-                String name = tracker.findAll()[i].getName();
-                String desc = tracker.findAll()[i].getDesc();
+                String id = tracker.findAll().get(i).getId();
+                String name = tracker.findAll().get(i).getName();
+                String desc = tracker.findAll().get(i).getDesc();
                 System.out.println(i + ". " + " NAME = " + name + "; DESC = " + desc + "; ID = " + id);
             }
         } else {

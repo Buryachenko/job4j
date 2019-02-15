@@ -1,6 +1,9 @@
 package ru.job4j.tracker;
 import java.util.Arrays;
 import java.util.Date;
+import java.util.List;
+import java.util.Arrays;
+import java.util.ArrayList;
 /**
  *  Class Класс обертка для Item.
  *  @author Buryachenko
@@ -8,28 +11,24 @@ import java.util.Date;
  *  @version 1
  */
 public class Tracker {
-	private final Item[] items = new Item[100];
-	private int position = 0;
+
+	private List<Item> items = new ArrayList();
 
 	public int getPosition() {
-		return position;
+		return items.size();
 	}
+
 	public Item add(Item item) {
 		item.setId(this.generateId());
-		if (this.position < items.length) {
-			this.items[this.position++] = item;
-		} else {
-			item = null;
-		}
+		this.items.add(item);
 		return item;
 	}
 	public boolean replace(String id, Item item) {
 		boolean result = false;
 		item.setId(id);
-		for (int i = 0; i < position; i++) {
-			if (id.equals(items[i].getId())) {
-				items[i] = item;
-				result = true;
+		for (Item itemOld : items) {
+			if (id.equals(itemOld.getId())) {
+				result = itemOld.equals(items.set(items.indexOf(itemOld), item));
 				break;
 			}
 		}
@@ -37,37 +36,31 @@ public class Tracker {
 	}
 	public boolean delete(String id) {
 		boolean result = false;
-		for (int i = 0; i < position; i++) {
-			if (id.equals(items[i].getId())) {
-				if (i < position - 1) {
-					System.arraycopy(items, i + 1, items, i, position - (i + 1));
-				}
-				items[position - 1] = null;
-				this.position--;
-				result = true;
+		for (Item itemOld : items) {
+			if (id.equals(itemOld.getId())) {
+				result = items.remove(itemOld);
 				break;
 			}
 		}
 		return result;
 	}
-	public Item[] findAll() {
-		return Arrays.copyOf(items, position);
+	public List<Item> findAll() {
+		return items;
 	}
-	public Item[] findByName(String key) {
-		int pos = 0;
-		Item[] result = new Item[items.length];
-		for (int i = 0; i < position; i++) {
-			if (key.equals(items[i].getName())) {
-				result[pos++] = items[i];
-			}
-		}
-		return Arrays.copyOf(result, pos);
+	public List<Item> findByName(String key) {
+		List<Item> result = new ArrayList<>();
+		for (Item itemOld : items) {
+		    if (key.equals(itemOld.getName())) {
+		        result.add(itemOld);
+            }
+        }
+		return result;
 	}
 	public Item findById(String id) {
 		Item result = null;
-		for (int i = 0; i < position; i++) {
-			if (id.equals(items[i].getId())) {
-				result = items[i];
+        for (Item itemOld : items) {
+            if (id.equals(itemOld.getId())) {
+				result = itemOld;
 				break;
 			}
 		}

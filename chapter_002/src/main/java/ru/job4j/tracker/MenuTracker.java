@@ -17,7 +17,7 @@ public class MenuTracker {
         this.tracker = tracker;
     }
     
-    public int getActionsLentgh() {
+    public int getActionsLength() {
         return this.actions.size();
     }
     

@@ -2,6 +2,7 @@ package ru.job4j.tracker;
 import org.junit.Test;
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
+import java.util.List;
 /**
  * Test.
  *
@@ -15,7 +16,7 @@ public class TrackerTest {
         Tracker tracker = new Tracker();
         Item item = new Item("test1", "testDescription", 123L);
         tracker.add(item);
-        assertThat(tracker.findAll()[0], is(item));
+        assertThat(tracker.findAll().get(0), is(item));
     }
     @Test
     public void whenReplaceNameThenReturnNewName() {
@@ -26,8 +27,8 @@ public class TrackerTest {
         next.setId(previous.getId());
         tracker.replace(previous.getId(), next);
         assertThat(tracker.findById(previous.getId()).getName(), is("test2"));
-        tracker.delete(tracker.findAll()[0].getId());
-        assertThat(0, is(tracker.findAll().length));
+        tracker.delete(tracker.findAll().get(0).getId());
+        assertThat(0, is(tracker.findAll().size()));
     }
     @Test
     public void whenDeleteItem() {
@@ -38,13 +39,13 @@ public class TrackerTest {
         }
         int index = 0;
         while (index < 100) {
-            String id = tracker.findByName(Integer.toString(index))[0].getId();
+            String id = tracker.findByName(Integer.toString(index)).get(0).getId();
             tracker.delete(id);
             index = index + 2;
         }
-        Item[] item = tracker.findAll();
+        List<Item> items = tracker.findAll();
         for (int i = 0; i < tracker.getPosition(); i++) {
-            assertThat(Integer.toString(i * 2 + 1), is(item[i].getName()));
+            assertThat(Integer.toString(i * 2 + 1), is(items.get(i).getName()));
         }
     }
 }

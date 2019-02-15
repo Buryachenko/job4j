@@ -1,6 +1,5 @@
 package ru.job4j.tracker;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -29,7 +28,7 @@ public class StartUI {
     public void init() {
         MenuTracker menu = new MenuTracker(this.input, this.tracker);
         menu.fillActions(this);
-        int[] range = new int[menu.getActionsLentgh()];
+        int[] range = new int[menu.getActionsLength()];
         for (int i = 0; i < range.length; i++) {
             range[i] = i;
         }
@@ -57,9 +56,9 @@ public class StartUI {
         System.out.println("--------- Список заявок ---------");
         if (tracker.getPosition() > 0) {
             for (int i = 0; i < tracker.getPosition(); i++) {
-                String id = tracker.findAll()[i].getId();
-                String name = tracker.findAll()[i].getName();
-                String desc = tracker.findAll()[i].getDesc();
+                String id = tracker.findAll().get(i).getId();
+                String name = tracker.findAll().get(i).getName();
+                String desc = tracker.findAll().get(i).getDesc();
                 System.out.println(i + ". " + " NAME = " + name + "; DESC = " + desc + "; ID = " + id);
             }
         } else {
@@ -105,10 +104,9 @@ public class StartUI {
     private void findItemByName() {
         System.out.println("-----------------------------------");
         String name = this.input.ask("Введите имя заявки :");
-        if (tracker.findByName(name) != null) {
-            Item[] items = tracker.findByName(name);
-            for (int i = 0; i < items.length; i++) {
-                System.out.println("ID = " + items[i].getId() + "; Desc = " + items[i].getDesc());
+        if (!tracker.findByName(name).isEmpty()) {
+            for (Item item : tracker.findByName(name)) {
+                System.out.println("ID = " + item.getId() + "; Desc = " + item.getDesc());
             }
         } else {
             System.out.println("Заявка не найдена.");
