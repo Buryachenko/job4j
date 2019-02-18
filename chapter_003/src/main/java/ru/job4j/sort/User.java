@@ -1,5 +1,11 @@
 package ru.job4j.sort;
-
+/**
+ *
+ * Class Класс с информацией о пользователе
+ * @athor Buryachenko
+ * @since 18.02.19
+ * @version 1
+ */
 public class User implements Comparable<User> {
     private String name;
     private int age;
