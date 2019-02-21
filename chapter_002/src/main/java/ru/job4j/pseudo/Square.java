@@ -12,7 +12,8 @@ public class Square implements Shape {
         figura.append("+++++++");
         figura.append("+++++++");
         figura.append("+++++++");
-        figura.append("+++++++\r\n");
+        figura.append("+++++++");
+        figura.append(System.lineSeparator());
         return figura.toString();
     }
 }
