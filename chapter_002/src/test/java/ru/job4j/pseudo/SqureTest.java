@@ -17,11 +17,12 @@ public class SqureTest {
             square.draw(),
             is(
                 new StringBuilder()
-                .append("+++++++")
-                .append("+++++++")
-                .append("+++++++")
-                .append("+++++++\r\n")
-                .toString()
+                        .append("+++++++")
+                        .append("+++++++")
+                        .append("+++++++")
+                        .append("+++++++")
+                        .append(System.lineSeparator())
+                        .toString()
             )
         );
     }

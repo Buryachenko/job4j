@@ -17,7 +17,8 @@ public class TriangleTest {
                 .append("+")
                 .append("+++")
                 .append("+++++")
-                .append("+++++++\r\n")
+                .append("+++++++")
+                .append(System.lineSeparator())
                 .toString())
         );
     }
