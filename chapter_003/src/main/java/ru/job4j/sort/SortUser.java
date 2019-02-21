@@ -31,15 +31,9 @@ public class SortUser {
                 new Comparator<User>() {
                     @Override
                     public int compare(User o1, User o2) {
-                        return Integer.compare(o1.getAge(), o2.getAge());
-                    }
-                }
-        );
-        users.sort(
-                new Comparator<User>() {
-                    @Override
-                    public int compare(User o1, User o2) {
-                        return o1.getName().compareTo(o2.getName());
+                        int resAge = Integer.compare(o1.getAge(), o2.getAge());
+                        int resName = o1.getName().compareTo(o2.getName());
+                        return resName == 0 ? resAge : resName;
                     }
                 }
         );

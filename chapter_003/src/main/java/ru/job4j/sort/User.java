@@ -1,4 +1,5 @@
 package ru.job4j.sort;
+import java.util.Objects;
 /**
  *
  * Class Класс с информацией о пользователе
@@ -40,7 +41,10 @@ public class User implements Comparable<User> {
 
     @Override
     public int hashCode() {
-        return  this.hashCode();
+        int hash = 3;
+        hash = 47 * hash + Objects.hashCode(this.name);
+        hash = 47 * hash + Objects.hashCode(this.age);
+        return hash;
     }
 
 }
