@@ -12,18 +12,12 @@ public class ListCompare implements Comparator<String> {
         char[] first = str1.toCharArray();
         char[] second = str2.toCharArray();
         int result = 0;
-        int size = str1.length() > str2.length() ? str2.length() : str1.length();
+        int size = Math.min(str1.length(), str2.length());
         for (int i = 0; i < size; i++) {
             if (first[i] != second[i]) {
-                result = first[i] > second[i] ? 1 : -1;
-                break;
+                return first[i] - second[i];
             }
         }
-        if (result == 0 & str1.length() > str2.length()) {
-            result = 1;
-        } else if (result == 0 & str1.length() < str2.length()) {
-            result = -1;
-        }
-        return result;
+        return str1.length() - str2.length();
     }
 }
