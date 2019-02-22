@@ -15,7 +15,7 @@ public class ListCompare implements Comparator<String> {
         int size = Math.min(str1.length(), str2.length());
         for (int i = 0; i < size; i++) {
             if (first[i] != second[i]) {
-                result = first[i] > second[i] ? 1 : -1;
+                result = Integer.compare(first[i], second[i]);
                 break;
             }
         }
