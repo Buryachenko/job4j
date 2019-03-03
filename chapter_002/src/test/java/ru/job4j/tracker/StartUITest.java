@@ -8,6 +8,8 @@ import org.junit.After;
 import static org.junit.Assert.assertThat;
 import org.junit.Before;
 import java.util.List;
+import java.util.function.Consumer;
+
 /**
  * Test.
  * @author Oleg Buryachenko (mailto:ovburyachenko@yandex.ru)
@@ -17,6 +19,13 @@ import java.util.List;
 public class StartUITest {
     private final PrintStream stdout = System.out;
     private final ByteArrayOutputStream out = new ByteArrayOutputStream();
+	private final Consumer<String> output = new Consumer<String>() {
+      private final PrintStream stdout = new PrintStream(out);
+      @Override
+      public void accept(String s) {
+            stdout.println(s);
+      }
+	};
     private static final String MENU =  "Меню." + System.lineSeparator()
                                         + "0. Add new Item" + System.lineSeparator()
                                         + "1. Show all items" + System.lineSeparator()
@@ -41,7 +50,7 @@ public class StartUITest {
     public void whenUserAddItemThenTrackerHasNewItemWithSameName() {
         Tracker tracker = new Tracker();
         Input input = new StubInput(new String[]{"0", "Oleg", "student", "6"});
-        new StartUI(input, tracker).init();
+        new StartUI(input, tracker, System.out :: println).init();
         assertThat(tracker.findAll().get(0).getName(), is("Oleg"));
     }
     @Test
@@ -49,7 +58,7 @@ public class StartUITest {
         Tracker tracker = new Tracker();
         Item item = tracker.add(new Item("Oleg", "student"));
         Input input = new StubInput(new String[]{"2", item.getId(), "test replace", "заменили заявку", "6"});
-        new StartUI(input, tracker).init();
+        new StartUI(input, tracker, System.out :: println).init();
         assertThat(tracker.findById(item.getId()).getName(), is("test replace"));
     }
     @Test
@@ -58,7 +67,7 @@ public class StartUITest {
         Item item = tracker.add(new Item("Oleg", "student"));
         String id = item.getId();
         Input input = new StubInput(new String[]{"3", id, "6"});
-        new StartUI(input, tracker).init();
+        new StartUI(input, tracker, System.out :: println).init();
         assertThat(tracker.getPosition(), is(0));
     }
     @Test
@@ -68,7 +77,7 @@ public class StartUITest {
         tracker.add(item);
         List<Item> items = tracker.findAll();
         Input input = new StubInput(new String[]{"1", "6"});
-        new StartUI(input, tracker).init();
+        new StartUI(input, tracker, System.out :: println).init();
         assertThat(
                 new String(out.toByteArray()),
                 is(
@@ -96,7 +105,7 @@ public class StartUITest {
         tracker.add(item);
         List<Item> items = tracker.findAll();
         Input input = new StubInput(new String[]{"4", item.getId(), "6"});
-        new StartUI(input, tracker).init();
+        new StartUI(input, tracker, System.out :: println).init();
         assertThat(
                 new String(out.toByteArray()),
                 is(
@@ -123,7 +132,7 @@ public class StartUITest {
         tracker.add(item);
         List<Item> items = tracker.findAll();
         Input input = new StubInput(new String[]{"5", item.getName(), "6"});
-        new StartUI(input, tracker).init();
+        new StartUI(input, tracker, System.out :: println).init();
         assertThat(
                 new String(out.toByteArray()),
                 is(

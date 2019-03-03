@@ -1,6 +1,8 @@
 package ru.job4j.tracker;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Consumer;
+
 /**
  *  Class Класс используется для отображения меню в консоли.
  *  @author Buryachenko
@@ -11,10 +13,11 @@ public class MenuTracker {
     private Input input;
     private Tracker tracker;
     private List<UserAction> actions = new ArrayList<>();
-
-    public MenuTracker(Input input, Tracker tracker) {
+    private final Consumer<String> output;
+    public MenuTracker(Input input, Tracker tracker, Consumer<String> output) {
         this.input = input;
         this.tracker = tracker;
+        this.output = output;
     }
     
     public int getActionsLength() {
@@ -36,10 +39,10 @@ public class MenuTracker {
     }
     
     public void show() {
-        System.out.println("Меню.");
+        this.output.accept("Меню.");
         for (UserAction action : this.actions) {
             if (action != null) {
-                System.out.println(action.info());
+                this.output.accept(action.info());
             }
         }
     }

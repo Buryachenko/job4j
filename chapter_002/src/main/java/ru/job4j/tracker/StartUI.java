@@ -1,6 +1,7 @@
 package ru.job4j.tracker;
 
 import java.util.List;
+import java.util.function.Consumer;
 
 /**
  *  Class Класс точка входа в программу.
@@ -19,14 +20,16 @@ public class StartUI {
     private static final String EXIT = "6";
     private final Input input;
     private final Tracker tracker;
-    
-    public StartUI(Input input, Tracker tracker) {
+    private final Consumer<String> output;
+
+    public StartUI(Input input, Tracker tracker, Consumer<String> output) {
         this.input = input;
         this.tracker = tracker;
+        this.output = output;
     }
 
     public void init() {
-        MenuTracker menu = new MenuTracker(this.input, this.tracker);
+        MenuTracker menu = new MenuTracker(this.input, this.tracker, this.output);
         menu.fillActions(this);
         int[] range = new int[menu.getActionsLength()];
         for (int i = 0; i < range.length; i++) {
@@ -45,91 +48,92 @@ public class StartUI {
     }
 
     private void createItem() {
-        System.out.println("--------- Добавление новой заявки ---------");
+        this.output.accept("--------- Добавление новой заявки ---------");
         String name = this.input.ask("Введите имя заявки :");
         String desc = this.input.ask("Введите описание заявки");
         Item item = new Item(name, desc);
         this.tracker.add(item);
-        System.out.println("--------- Новая заявка с getId :" + item.getId() + "---------");
+        this.output.accept("--------- Новая заявка с getId :" + item.getId() + "---------");
     }
     private void showItems() {
-        System.out.println("--------- Список заявок ---------");
+        this.output.accept("--------- Список заявок ---------");
         if (tracker.getPosition() > 0) {
             for (int i = 0; i < tracker.getPosition(); i++) {
                 String id = tracker.findAll().get(i).getId();
                 String name = tracker.findAll().get(i).getName();
                 String desc = tracker.findAll().get(i).getDesc();
-                System.out.println(i + ". " + " NAME = " + name + "; DESC = " + desc + "; ID = " + id);
+                this.output.accept(i + ". " + " NAME = " + name + "; DESC = " + desc + "; ID = " + id);
             }
         } else {
-            System.out.println("Нет заявок.");
+            this.output.accept("Нет заявок.");
         }
-        System.out.println("---------------------------------");
+        this.output.accept("---------------------------------");
     }
     private void editItem() {
-        System.out.println("--------- Изменение заявки ---------");
+        this.output.accept("--------- Изменение заявки ---------");
         String id = this.input.ask("Введите индефикатор заявки :");
         String name = this.input.ask("Введите имя заявки :");
         String desc = this.input.ask("Введите описание заявки");
         Item item = new Item(name, desc);
         if (this.tracker.replace(id, item)) {
-            System.out.println("Заявка изменена.");
+            this.output.accept("Заявка изменена.");
         } else {
-            System.out.println("Заявка не найдена.");
+            this.output.accept("Заявка не найдена.");
         }
-        System.out.println("-----------------------------------");
+        this.output.accept("-----------------------------------");
     }
     private void deleteItem() {
-        System.out.println("--------- Удаление заявки ---------");
+        this.output.accept("--------- Удаление заявки ---------");
         String id = this.input.ask("Введите индефикатор заявки :");
         if (tracker.delete(id)) {
-            System.out.println("Заявка успешно удалена.");
+            this.output.accept("Заявка успешно удалена.");
         } else {
-            System.out.println("Заявка не найдена.");
+            this.output.accept("Заявка не найдена.");
         }
-        System.out.println("-----------------------------------");
+        this.output.accept("-----------------------------------");
     }
     private void findItemById() {
-        System.out.println("-------------------------------");
+        this.output.accept("-------------------------------");
         String id = this.input.ask("Введите индефикатор заявки :");
         if (tracker.findById(id) != null) {
             String name = tracker.findById(id).getName();
             String desc = tracker.findById(id).getDesc();
-            System.out.println("Name = " + name + "; Desc = " + desc);
+            this.output.accept("Name = " + name + "; Desc = " + desc);
         } else {
-            System.out.println("Заявка не найдена.");
+            this.output.accept("Заявка не найдена.");
         }
-        System.out.println("-------------------------------");
+        this.output.accept("-------------------------------");
     }
     private void findItemByName() {
-        System.out.println("-----------------------------------");
+        this.output.accept("-----------------------------------");
         String name = this.input.ask("Введите имя заявки :");
         if (!tracker.findByName(name).isEmpty()) {
             for (Item item : tracker.findByName(name)) {
-                System.out.println("ID = " + item.getId() + "; Desc = " + item.getDesc());
+                this.output.accept("ID = " + item.getId() + "; Desc = " + item.getDesc());
             }
         } else {
-            System.out.println("Заявка не найдена.");
+            this.output.accept("Заявка не найдена.");
         }
-        System.out.println("-----------------------------------");
+        this.output.accept("-----------------------------------");
     }
     private void showMenu() {
-        System.out.println("Меню.");
-        System.out.println("0. Add new Item");
-        System.out.println("1. Show all items");
-        System.out.println("2. Edit item");
-        System.out.println("3. Delete item");
-        System.out.println("4. Find item by Id");
-        System.out.println("5. Find items by name");
-        System.out.println("6. Exit Program");
-        System.out.println("Select:");
+        this.output.accept("Меню.");
+        this.output.accept("0. Add new Item");
+        this.output.accept("1. Show all items");
+        this.output.accept("2. Edit item");
+        this.output.accept("3. Delete item");
+        this.output.accept("4. Find item by Id");
+        this.output.accept("5. Find items by name");
+        this.output.accept("6. Exit Program");
+        this.output.accept("Select:");
     }
     public static void main(String[] args) {
         new StartUI(
                 new ValidateInput(
                         new ConsoleInput()
                 ),
-                new Tracker()
+                new Tracker(),
+                System.out :: println
         ).init();
     }
 }
