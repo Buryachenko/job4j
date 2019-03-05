@@ -5,7 +5,7 @@ import static org.hamcrest.core.Is.is;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Arrays;
-
+import java.util.LinkedList;
 /**
  * @Test
  * @author Oleg Buryachenko (mailto: ovburyachenko@yandex.ru)
@@ -23,6 +23,22 @@ public class ProfilesTest {
         List<Profile> profiles = new ArrayList();
         expected.forEach(addr -> profiles.add(new Profile(addr)));
         List<Address> result = new Profiles().collect(profiles);
+        assertThat(expected, is(result));
+    }
+
+    @Test
+    public void whenGetUniqAddressAndSortOfCity() {
+        List<Address> expected = new LinkedList(Arrays.asList(
+                new Address("Novosibirsk", "Cheluskincev", 28, 3),
+                new Address("Moskow", "Kosmonavtov", 39, 118),
+                new Address("Moskow", "Kosmonavtov", 39, 118),
+                new Address("Yekaterinburg", "Stroiteley", 55, 10)
+        ));
+        List<Profile> profiles = new ArrayList();
+        expected.forEach(addr -> profiles.add(new Profile(addr)));
+        List<Address> result = new Profiles().sortAddress(profiles);
+        expected.remove(1);
+        expected.set(1, expected.set(0, expected.get(1)));
         assertThat(expected, is(result));
     }
 }
