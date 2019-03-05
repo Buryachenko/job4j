@@ -20,7 +20,7 @@ public class ProfilesTest {
             new Address("Yekaterinburg", "Stroiteley", 55, 10),
             new Address("Moskow", "Kosmonavtov", 39, 118)
         );
-        List<Profile> profiles = new ArrayList();
+        List<Profile> profiles = new ArrayList<>();
         expected.forEach(addr -> profiles.add(new Profile(addr)));
         List<Address> result = new Profiles().collect(profiles);
         assertThat(expected, is(result));
@@ -28,13 +28,13 @@ public class ProfilesTest {
 
     @Test
     public void whenGetUniqAddressAndSortOfCity() {
-        List<Address> expected = new LinkedList(Arrays.asList(
+        List<Address> expected = new LinkedList<>(Arrays.asList(
                 new Address("Novosibirsk", "Cheluskincev", 28, 3),
                 new Address("Moskow", "Kosmonavtov", 39, 118),
                 new Address("Moskow", "Kosmonavtov", 39, 118),
                 new Address("Yekaterinburg", "Stroiteley", 55, 10)
         ));
-        List<Profile> profiles = new ArrayList();
+        List<Profile> profiles = new LinkedList();
         expected.forEach(addr -> profiles.add(new Profile(addr)));
         List<Address> result = new Profiles().sortAddress(profiles);
         expected.remove(1);

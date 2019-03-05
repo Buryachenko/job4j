@@ -11,9 +11,10 @@ import java.util.Objects;
  */
 public class Student {
     private int score;
+    private String surname;
 
-    public Student() {
-
+    public Student(String surname) {
+        this.surname = surname;
     }
 
     public Student(int score) {
@@ -24,6 +25,9 @@ public class Student {
         return this.score;
     }
 
+    public  String getSurname() {
+        return this.surname;
+    }
    @Override
     public boolean equals(Object obj) {
         if (this == obj) {
@@ -36,8 +40,11 @@ public class Student {
             return false;
         }
         final Student other = (Student) obj;
-        if (!Objects.equals(this.score, other.score)) {
+        if (!Objects.equals(this.surname, other.surname)) {
             return false;
+        }
+        if (!Objects.equals(this.score, other.score)) {
+           return false;
         }
         return true;
     }
@@ -46,6 +53,7 @@ public class Student {
     public int hashCode() {
         int hash = 3;
         hash = 47 * hash + Objects.hashCode(this.score);
+        hash = 47 * hash + Objects.hashCode(this.surname);
         return hash;
     }
 }
