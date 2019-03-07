@@ -3,9 +3,6 @@ import java.util.Set;
 import java.util.HashMap;
 import java.util.List;
 import java.util.ArrayList;
-import java.util.UUID;
-import java.util.function.Predicate;
-import java.util.stream.Collectors;
 
 /**
  *
@@ -28,12 +25,6 @@ public class Bank {
     public void addUser(User user) {
         this.deposits.putIfAbsent(user, new ArrayList<>());
     }
-    
-    private List<Account> defaultUserAccount() {
-        List<Account> accounts = new ArrayList<>();
-        accounts.add(new Account(0.0f, UUID.randomUUID().toString()));
-        return accounts;
-    }
 
     public void deleteUser(User user) {
         this.deposits.remove(user);
@@ -49,7 +40,7 @@ public class Bank {
 
     public  void deleteAccountFromUser(String passport, Account account) {
         List<Account> accounts = getUserAccounts(passport);
-        if (accounts.indexOf(account) != -1) {
+        if (accounts != null) {
             accounts.remove(account);
         }
     }
