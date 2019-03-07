@@ -4,6 +4,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.UUID;
+import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 /**
  *
@@ -13,7 +15,7 @@ import java.util.UUID;
  * @version 1
  */
 public class Bank {
-    public HashMap<User, List<Account>> deposits = new HashMap();
+    public HashMap<User, List<Account>> deposits = new HashMap<>();
 
     public Bank() {
 
@@ -39,12 +41,10 @@ public class Bank {
 
     public void addAccountToUser(String passport, Account account) {
         Set<User> users = this.deposits.keySet();
-        for (User user : users) {
-            if (user.getPassport().equals(passport)) {
-                this.deposits.get(user).add(account);
-                break;
-            }
-        }
+        this.deposits.get(users.stream()
+                                .filter(u -> u.getPassport().equals(passport))
+                                .findFirst().orElse(null))
+                                .add(account);
     }
 
     public  void deleteAccountFromUser(String passport, Account account) {
@@ -55,15 +55,10 @@ public class Bank {
     }
 
     public List<Account> getUserAccounts(String passport) {
-        List<Account> result = new ArrayList<>();
-        Set<User> users =  this.deposits.keySet();
-        for (User user : users) {
-            if (user.getPassport().equals(passport)) {
-                result = this.deposits.get(user);
-                break;
-            }
-        }
-        return result;
+        Set<User> users = this.deposits.keySet();
+        return  this.deposits.get(users.stream()
+                                .filter(u -> u.getPassport().equals(passport))
+                                .findFirst().orElse(null));
     }
     
     public boolean transferMoney(String srcPassport, String srcRequisite, String destPassport, String destRequisite, double amount) {
@@ -73,14 +68,9 @@ public class Bank {
     }
     
     private Account getActualAccount(String passport, String requisite) {
-        List<Account> accounts = getUserAccounts(passport);
-        Account result = null;
-        for (Account account : accounts) {
-            if (account.getRequisites().equals(requisite)) {
-                result = account;
-                break;
-            }
-        }
-        return result;
+        return getUserAccounts(passport).stream()
+                                .filter(acc -> acc.getRequisites()
+                                .equals(requisite))
+                                .findFirst().orElse(null);
     }
 }
