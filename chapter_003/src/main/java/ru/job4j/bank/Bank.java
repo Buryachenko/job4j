@@ -1,8 +1,5 @@
 package ru.job4j.bank;
-import java.util.Set;
-import java.util.HashMap;
-import java.util.List;
-import java.util.ArrayList;
+import java.util.*;
 
 /**
  *
@@ -31,11 +28,11 @@ public class Bank {
     }
 
     public void addAccountToUser(String passport, Account account) {
-        Set<User> users = this.deposits.keySet();
-        this.deposits.get(users.stream()
-                                .filter(u -> u.getPassport().equals(passport))
-                                .findFirst().orElse(null))
-                                .add(account);
+        User user = this.deposits.keySet().stream().filter(u -> u.getPassport().equals(passport)).findFirst().orElse(null);
+        this.deposits.computeIfPresent(user, (key, acc) -> {
+            acc.add(account);
+            return acc;
+        });
     }
 
     public  void deleteAccountFromUser(String passport, Account account) {
