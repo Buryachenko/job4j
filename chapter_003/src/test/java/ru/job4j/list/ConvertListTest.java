@@ -14,13 +14,14 @@ import static org.junit.Assert.assertThat;
 public class ConvertListTest {
 @Test
 public void when3on6ArrayThenList4() {
-        List<int[]> inList = new ArrayList();
-        inList.add(new int[] {1, 2, 3});
-        inList.add(new int[] {4, 5, 6, 7, 8, 9});
+        List<int[]> inList = List.of(
+                new int[] {1, 2, 3},
+                new int[] {4, 5, 6, 7, 8, 9}
+                );
         ConvertList list = new ConvertList();
-        List<Integer> expect = Arrays.asList(
+        List<Integer> expect = List.of(
                 1, 2, 3, 4, 5, 6, 7, 8, 9
-        );
+                );
         List<Integer> result = list.convert(inList);
         assertThat(result, is(expect));
     }

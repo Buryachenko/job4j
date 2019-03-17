@@ -17,10 +17,11 @@ import static org.junit.Assert.assertThat;
 public class SortUserTest {
     @Test
     public void whenSortUser() {
-        List<User> users = Arrays.asList(new User("Oleg", 23), new User("Vika", 18), new User("Alla", 33));
+        List<User> users = List.of(new User("Oleg", 23), new User("Vika", 18), new User("Alla", 33));
         SortUser sortUser = new SortUser();
         Set<User> result = sortUser.sort(users);
-        assertThat(result.iterator().next().getName(), is("Vika"));
+        Set<User> expected = Set.of(new User("Vika", 18), new User("Oleg", 23), new User("Alla", 33));
+        assertThat(expected, is(result));
     }
 
     @Test

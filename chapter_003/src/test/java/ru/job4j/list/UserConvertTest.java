@@ -16,9 +16,10 @@ public class UserConvertTest {
     
     @Test
     public void whenListConvertHashMap() {     
-        List<User> list = new ArrayList();      
-        list.add(new User(0, "Ivan", "Tomsk"));
-        list.add(new User(1, "Olga", "Moscow"));
+        List<User> list = List.of(
+                    new User(0, "Ivan", "Tomsk"),
+                    new User(1, "Olga", "Moscow")
+        );
         UserConvert userConvert = new UserConvert();
         HashMap<Integer, User> result = userConvert.process(list);        
         assertThat(result.get(0), is(list.get(0)));
