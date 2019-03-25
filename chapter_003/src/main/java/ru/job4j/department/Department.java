@@ -18,7 +18,7 @@ public class Department {
         this.departments = departments;
     }
 
-    private Comparator<String> CompareString(Direct direct) {
+    private Comparator<String> compareString(Direct direct) {
         return (String o1, String o2) -> {
             int resStr = (direct == Direct.rise ? 1 : -1) * o1.compareTo(o2);
             int resLength = Integer.compare(o1.length(), o2.length());
@@ -27,29 +27,23 @@ public class Department {
     }
 
     public String[] sortRising() {
-        String[] array = this.convertArrayToMap(new TreeMap<>(String::compareTo))
-                .entrySet().stream().flatMap((entry) -> {
-                    entry.getValue().sort(CompareString(Direct.rise));
-                    return entry.getValue().stream();
-                }).collect(Collectors.toList()).toArray(new String[0]);
-       return removeDuplicate(array);
+        return this.convertArrayToMap(new TreeMap<>(String::compareTo))
+                    .entrySet().stream().flatMap((entry) -> entry.getValue().stream().sorted(compareString(Direct.rise)))
+                    .toArray(String[]::new);
     }
 
     public String[] sortFalling() {
-        String[] array = this.convertArrayToMap(new TreeMap<>((String o1, String o2) -> (-1) * o1.compareTo(o2)))
-                .entrySet().stream().flatMap((entry) -> {
-                    entry.getValue().sort(CompareString(Direct.fall));
-                    return entry.getValue().stream();
-                }).collect(Collectors.toList()).toArray(new String[0]);
-       return removeDuplicate(array);
+        return this.convertArrayToMap(new TreeMap<>((String o1, String o2) -> (-1) * o1.compareTo(o2)))
+                    .entrySet().stream().flatMap((entry) -> entry.getValue().stream().sorted(compareString(Direct.fall)))
+                    .toArray(String[]::new);
     }
 
     public String[] removeDuplicate(String[] array) {
         List<String> list = Arrays.asList(array);
-        return list.stream().distinct().collect(Collectors.toList()).toArray(new String[0]);
+        return list.stream().distinct().toArray(String[]::new);
     }
 
-    private TreeMap<String, List<String>> convertArrayToMap(TreeMap<String, List<String>> map) {
+    private TreeMap<String, Set<String>> convertArrayToMap(TreeMap<String, Set<String>> map) {
         for (String str : departments) {
             StringTokenizer token = new StringTokenizer(str, delim);
             String department = "";
@@ -57,7 +51,7 @@ public class Department {
             String sub = "";
             if (token.hasMoreTokens()) {
                 department = token.nextElement().toString();
-                map.putIfAbsent(department, new ArrayList<>());
+                map.putIfAbsent(department, new TreeSet<>());
                 map.get(department).add(department);
             }
             if (token.hasMoreTokens()) {
