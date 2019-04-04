@@ -21,7 +21,7 @@ public class EvenNumbersIterator implements Iterator<Integer> {
     public boolean hasNext() {
         boolean result = false;
         for (int i = index; i < numbers.length; i++) {
-            if(this.numbers[i]%2 == 0) {
+            if (this.numbers[i] % 2 == 0) {
                 index = i;
                 result = true;
                 break;
