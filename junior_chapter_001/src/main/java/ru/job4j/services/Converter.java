@@ -15,10 +15,11 @@ public class Converter {
             Iterator<Integer> it = its.next();
             @Override
             public boolean hasNext() {
-                if (!it.hasNext()) {
-                    if (its.hasNext()) {
-                        it = its.next();
+                while (!it.hasNext()) {
+                    if(!its.hasNext()) {
+                        break;
                     }
+                    it = its.next();
                 }
                 return it.hasNext();
             }
