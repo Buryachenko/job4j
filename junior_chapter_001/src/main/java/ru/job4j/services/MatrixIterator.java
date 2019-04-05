@@ -1,5 +1,7 @@
 package ru.job4j.services;
+
 import java.util.Iterator;
+import java.util.NoSuchElementException;
 /**
  *
  * Class Класс предоставляет итератор для матрицы
@@ -34,6 +36,9 @@ public class MatrixIterator implements Iterator {
 
     @Override
     public Object next() {
-        return hasNext() ? this.values[row][column++] : null;
+        if (!hasNext()) {
+            throw new NoSuchElementException();
+        }
+        return this.values[row][column++];
     }
 }
