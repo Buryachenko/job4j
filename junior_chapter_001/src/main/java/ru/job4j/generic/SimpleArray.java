@@ -13,17 +13,19 @@ public class SimpleArray<T> implements Iterable<T> {
     private final Object[] objects;
     private final int size;
     private int position = 0;
-    private int posIt = 0;
+
     public SimpleArray(int size) {
         this.objects = new Object[size];
         this.size = size;
     }
+
     public void add(T model) {
         if (position >= size) {
             throw new ArrayIndexOutOfBoundsException();
         }
         this.objects[position++] = model;
     }
+
     public T set(int index, T model) {
         if (index >= position) {
             throw new NoSuchElementException();
@@ -32,18 +34,18 @@ public class SimpleArray<T> implements Iterable<T> {
         this.objects[index] = model;
         return result;
     }
+
     public T remove(int index) {
         if (index >= position) {
             throw new NoSuchElementException();
         }
         T result = (T) this.objects[index];
-        for (int i = index; i < position; i++) {
-            this.objects[i] = this.objects[i + 1];
-        }
-        this.objects[position] = null;
+        System.arraycopy(objects, index + 1, objects, index, position - index - 1);
         position--;
+        this.objects[position] = null;
         return result;
     }
+
     public T get(int index) {
         if (index >= position) {
            throw new NoSuchElementException();
@@ -53,10 +55,12 @@ public class SimpleArray<T> implements Iterable<T> {
 
     @Override
     public Iterator<T> iterator() {
+
         return new Iterator<T>() {
+            int posIt = 0;
             @Override
             public boolean hasNext() {
-                return position < size;
+                return posIt < size && objects[posIt] != null;
             }
 
             @Override

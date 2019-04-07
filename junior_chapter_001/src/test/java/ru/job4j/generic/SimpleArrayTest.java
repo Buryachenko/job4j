@@ -59,4 +59,28 @@ public class SimpleArrayTest {
         assertThat(it.hasNext(), is(false));
         it.next();
     }
+
+    @Test(expected = NoSuchElementException.class)
+    public void whenSimpleArrayNotElementMustHasNextIsFalse() {
+        Iterator<String> it = simpleArray.iterator();
+        assertThat(it.hasNext(), is(false));
+        it.next();
+    }
+
+    @Test
+    public void whenSimpleArrayUsingTwoIterator() {
+        Iterator<String> it1 = simpleArray.iterator();
+        Iterator<String> it2 = simpleArray.iterator();
+        for (int i = 0; i < size; i++) {
+            simpleArray.add(Integer.toString(i));
+        }
+        for (int i = 0; i < size; i++) {
+            assertThat(simpleArray.get(i), is(it1.next()));
+        }
+        for (int i = 0; i < size; i++) {
+            assertThat(simpleArray.get(i), is(it2.next()));
+        }
+        assertThat(it1.hasNext(), is(false));
+        assertThat(it2.hasNext(), is(false));
+    }
 }
