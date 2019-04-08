@@ -33,8 +33,8 @@ public class BoxTest {
         assertThat(it1.next(), is(2));
         box.add(4);
         Iterator<Integer> it2 = box.iterator();
-        assertThat(it1.next(), is(1));
-        assertThat(it1.next(), is(2));
+        assertThat(it2.next(), is(1));
+        assertThat(it2.next(), is(2));
         it1.next();
     }
 }
