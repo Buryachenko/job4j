@@ -41,8 +41,7 @@ public class SimpleArray<T> implements Iterable<T> {
         }
         T result = (T) this.objects[index];
         System.arraycopy(objects, index + 1, objects, index, position - index - 1);
-        position--;
-        this.objects[position] = null;
+        this.objects[--position] = null;
         return result;
     }
 
@@ -60,7 +59,7 @@ public class SimpleArray<T> implements Iterable<T> {
             int posIt = 0;
             @Override
             public boolean hasNext() {
-                return posIt < size && objects[posIt] != null;
+                return posIt < position;
             }
 
             @Override
