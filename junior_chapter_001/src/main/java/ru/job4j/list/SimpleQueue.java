@@ -9,10 +9,12 @@ package ru.job4j.list;
 public class SimpleQueue<T> {
     private SimpleStack<T> stackFirst;
     private SimpleStack<T> stackSecond;
+
     public SimpleQueue() {
         stackFirst = new SimpleStack<>();
         stackSecond = new SimpleStack<>();
     }
+
     public T poll() {
         if (stackSecond.getSize() == 0) {
             while (stackFirst.getSize() != 0) {
