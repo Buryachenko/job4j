@@ -14,7 +14,7 @@ public class SimpleQueue<T> {
         stackSecond = new SimpleStack<>();
     }
     public T poll() {
-        if(stackSecond.getSize() == 0) {
+        if (stackSecond.getSize() == 0) {
             while (stackFirst.getSize() != 0) {
                 stackSecond.push(stackFirst.poll());
             }
