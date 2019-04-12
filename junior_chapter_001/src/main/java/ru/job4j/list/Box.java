@@ -29,7 +29,11 @@ public class Box<E> implements Iterable<E> {
         if (position >= maxSize) {
             throw new OutOfMemoryError();
         }
-        return Arrays.copyOf(container, 1 + container.length);
+        int newCapacity = (container.length << 1) + 1;
+        if (newCapacity - maxSize >= 0) {
+            newCapacity = maxSize;
+        }
+        return Arrays.copyOf(container, newCapacity);
     }
 
     @Override
