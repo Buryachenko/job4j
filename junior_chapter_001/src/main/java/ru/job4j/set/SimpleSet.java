@@ -1,7 +1,7 @@
 package ru.job4j.set;
 import ru.job4j.generic.SimpleArray;
-
 import java.util.Iterator;
+
 /**
  *
  * Class Класс контейнера типа Set на базе SimpleArray
@@ -25,7 +25,12 @@ public class SimpleSet<E> implements Iterable<E> {
     private boolean findDuplicate(E value) {
         boolean result = false;
         for (E date : simpleArray) {
-            if (date.equals(value)) {
+            if (date != null) {
+                if (date.equals(value)) {
+                    result = true;
+                    break;
+                }
+            } else if (value == null) {
                 result = true;
                 break;
             }

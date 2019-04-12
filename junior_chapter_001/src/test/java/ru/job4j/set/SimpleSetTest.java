@@ -2,8 +2,10 @@ package ru.job4j.set;
 
 import org.junit.Before;
 import org.junit.Test;
+
 import java.util.Iterator;
 import java.util.NoSuchElementException;
+
 import static  org.hamcrest.core.Is.is;
 import static org.junit.Assert.*;
 /**
@@ -19,16 +21,19 @@ public class SimpleSetTest {
     public void init() {
         simpleSet = new SimpleSet<>(10);
         simpleSet.add(1);
+        simpleSet.add(null);
         simpleSet.add(1);
         simpleSet.add(2);
         simpleSet.add(2);
         simpleSet.add(3);
         simpleSet.add(3);
+        simpleSet.add(null);
     }
     @Test(expected = NoSuchElementException.class)
     public void whenAddElementWithoutDuplicate() {
         Iterator<Integer> it = simpleSet.iterator();
         assertThat(it.next(), is(1));
+        assertNull(it.next());
         assertThat(it.next(), is(2));
         assertThat(it.next(), is(3));
         it.next();
