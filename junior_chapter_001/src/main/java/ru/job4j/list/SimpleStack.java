@@ -11,9 +11,7 @@ public class SimpleStack<T> {
     private SimpleArrayList<T> list = new SimpleArrayList<>();
 
     public T poll() {
-        T result = list.get(0);
-        list.delete();
-        return result;
+        return list.delete();
     }
 
     public void push(T date) {
