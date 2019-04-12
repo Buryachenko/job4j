@@ -6,15 +6,20 @@ package ru.job4j.list;
  * @since 08.04.19
  * @version 1
  */
-public class SimpleStack<T> extends SimpleArrayList<T> {
+public class SimpleStack<T> {
+
+    private SimpleArrayList<T> list = new SimpleArrayList<>();
 
     public T poll() {
-        T result = get(0);
-        delete();
+        T result = list.get(0);
+        list.delete();
         return result;
     }
 
     public void push(T date) {
-        add(date);
+        list.add(date);
+    }
+    public int getSize() {
+        return list.getSize();
     }
 }
