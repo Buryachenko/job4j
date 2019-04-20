@@ -79,7 +79,7 @@ public class SimpleHashMap<K, V> implements Iterable<V> {
         table = newMap;
         for (int i = 0; i < oldCapacity; i++) {
             if (oldMap[i] != null) {
-               int index = (oldMap[i].hash & 0x7FFFFFFF) % oldCapacity;
+               int index = (oldMap[i].hash & 0x7FFFFFFF) % newCapacity;
                newMap[index] = oldMap[i];
             }
         }
