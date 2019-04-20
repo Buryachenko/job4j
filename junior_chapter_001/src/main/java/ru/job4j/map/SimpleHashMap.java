@@ -12,12 +12,13 @@ public class SimpleHashMap<K, V> implements Iterable<V> {
     private Entry<?, ?>[] table;
     private final int defaultSize = 16;
     private final int maxSize = Integer.MAX_VALUE - 8;
+    private final float loadFactor = 0.75f;
     private int count;
     private int threshold;
 
     public SimpleHashMap() {
         table = new Entry<?, ?>[defaultSize];
-        threshold = defaultSize;
+        threshold = (int) Math.min(defaultSize * loadFactor, maxSize + 1);
     }
 
     public boolean insert(K key, V value) {
@@ -26,56 +27,39 @@ public class SimpleHashMap<K, V> implements Iterable<V> {
         int index = (hash & 0x7FFFFFFF) % table.length;
         Entry<K, V> entry = (Entry<K, V>) table[index];
         if (entry != null) {
-            if (entry.hash == hash) {
-                if (entry.key.equals(key)) {
-                    V old = entry.value;
-                    entry.value = value;
-                } else {
-                    result = false;
-                }
+            if (entry.hash == hash && entry.key.equals(key)) {
+                entry.value = value;
+            } else {
+                result = false;
             }
         }
         return result && addEntry(hash, key, value, index);
     }
 
     public V get(K key) {
-        int hash = key.hashCode();
-        int index = (hash & 0x7FFFFFFF) % table.length;
-        Entry<?, ?> result = table[index];
-        return (result != null && (result.hash == hash) && result.key.equals(key)) ? (V) result.value : null;
+        int index = (key.hashCode() & 0x7FFFFFFF) % table.length;
+        return table[index] != null ? (V) table[index].value : null;
     }
 
     public boolean delete(K key) {
+        boolean result = false;
         int hash = key.hashCode();
-        int pos = (hash & 0x7FFFFFFF) % table.length;
-        Entry<K, V> entry = (Entry<K, V>) table[pos];
-        Entry<K, V> first = (Entry<K, V>) table[pos];
-        Entry<K, V> prev = (Entry<K, V>) table[pos];
-        while (entry != null) {
-            if (entry.key.equals(key)) {
-                if (first == entry) {
-                    table[pos] = entry.next;
-                } else {
-                    prev.next = entry.next;
-                }
-                count--;
-                break;
-            }
-            prev = entry;
-            entry = entry.next;
+        int index = (hash & 0x7FFFFFFF) % table.length;
+        if (table[index].key.equals(key)) {
+            table[index] = null;
+            result = true;
+            count--;
         }
-        return entry != null;
+        return result;
     }
 
     private boolean addEntry(int hash, K key, V value, int index) {
         if (count >= threshold) {
             rehash();
-            table = table;
             hash = key.hashCode();
             index = (hash & 0x7FFFFFFF) % table.length;
         }
-        Entry<K, V> e = (Entry<K, V>) table[index];
-        table[index] = new Entry<>(hash, key, value, e);
+        table[index] = new Entry<>(hash, key, value);
         count++;
         return true;
     }
@@ -83,14 +67,22 @@ public class SimpleHashMap<K, V> implements Iterable<V> {
     protected void rehash() {
         int oldCapacity = table.length;
         int newCapacity = (oldCapacity << 1) + 1;
+        Entry<?, ?>[] oldMap = table;
         if (newCapacity - maxSize > 0) {
             if (oldCapacity == maxSize) {
                 return;
             }
             newCapacity = maxSize;
         }
-        threshold = Math.min(newCapacity, maxSize + 1);
-        table = Arrays.copyOf(table, newCapacity);
+        threshold = (int) Math.min(newCapacity * loadFactor, maxSize + 1);
+        Entry<?, ?>[] newMap = new Entry<?, ?>[newCapacity];
+        table = newMap;
+        for (int i = 0; i < oldCapacity; i++) {
+            if (oldMap[i] != null) {
+               int index = (oldMap[i].hash & 0x7FFFFFFF) % oldCapacity;
+               newMap[index] = oldMap[i];
+            }
+        }
     }
 
     @Override
@@ -106,11 +98,8 @@ public class SimpleHashMap<K, V> implements Iterable<V> {
                 if (modCount != count) {
                     throw new ConcurrentModificationException();
                 }
-                int i = index;
-                while (basket == null && i < size) {
-                    basket = table[i];
-                    index = i;
-                    i++;
+                while (basket == null && index < size) {
+                    basket = table[index++];
                 }
                 return basket != null;
             }
@@ -120,12 +109,9 @@ public class SimpleHashMap<K, V> implements Iterable<V> {
                 if (!hasNext()) {
                     throw new NoSuchElementException();
                 }
-                Entry<?, ?> e = basket;
-                basket = basket.next;
-                if (basket == null) {
-                    index++;
-                }
-                return (V) e.getValue();
+                V result = (V) basket.value;
+                basket = null;
+                return result;
             }
         };
     }
@@ -134,17 +120,11 @@ public class SimpleHashMap<K, V> implements Iterable<V> {
         private K key;
         private V value;
         private int hash;
-        private Entry<K, V> next;
 
-        Entry(int hash, K key, V value, Entry<K, V> next) {
+        Entry(int hash, K key, V value) {
             this.hash = hash;
             this.key = key;
             this.value = value;
-            this.next = next;
-        }
-
-        public V getValue() {
-            return this.value;
         }
     }
 }

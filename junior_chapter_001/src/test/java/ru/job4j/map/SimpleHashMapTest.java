@@ -1,10 +1,9 @@
 package ru.job4j.map;
 
 import org.junit.Test;
-import static org.hamcrest.core.Is.is;
-
-import java.util.ConcurrentModificationException;
 import java.util.Iterator;
+import java.util.NoSuchElementException;
+import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.*;
 /**
  *
@@ -15,33 +14,52 @@ import static org.junit.Assert.*;
  */
 public class SimpleHashMapTest {
 
-    @Test(expected = ConcurrentModificationException.class)
-    public void whenAddElementIndexUnknow() {
+    @Test
+    public void whenHashMapAddElementWidthCollision() {
         SimpleHashMap<Integer, String> map = new SimpleHashMap<>();
-        map.insert(20, "First");
-        map.insert(36, "Second");
-        map.insert(52, "Third");
-        map.insert(10, "Four");
-        map.insert(15, "Five");
+        assertThat(map.insert(20, "First"), is(true));
+        assertThat(map.insert(36, "Second"), is(false));
+        assertThat(map.insert(52, "Third"), is(false));
+    }
+
+    @Test
+    public void whenHashMapGetAndDeleteElement() {
+        SimpleHashMap<Integer, String> map = new SimpleHashMap<>();
+        assertThat(map.insert(20, "First"), is(true));
+        assertThat(map.insert(21, "Second"), is(true));
+        assertThat(map.get(20), is("First"));
+        assertThat(map.get(21), is("Second"));
+        assertThat(map.delete(20), is(true));
+        assertNull(map.get(20));
+        assertThat(map.delete(21), is(true));
+        assertNull(map.get(21));
+    }
+
+    @Test(expected = NoSuchElementException.class)
+    public void whenHashMapUsingIterator() {
+        SimpleHashMap<Integer, String> map = new SimpleHashMap<>();
+        assertThat(map.insert(20, "First"), is(true));
+        assertThat(map.insert(21, "Second"), is(true));
+        assertThat(map.insert(22, "Third"), is(true));
         Iterator<String> it = map.iterator();
         assertThat(it.hasNext(), is(true));
         assertThat(it.hasNext(), is(true));
-        assertThat(it.hasNext(), is(true));
-        assertThat(map.delete(20), is(true));
-        assertNull(map.get(20));
-        assertThat(map.delete(15), is(true));
-        assertNull(map.get(15));
-        Iterator<String> it1 = map.iterator();
-        assertThat(it1.hasNext(), is(true));
-        System.out.println(it1.next());
-        assertThat(it1.hasNext(), is(true));
-        System.out.println(it1.next());
-        assertThat(it1.hasNext(), is(true));
-        System.out.println(it1.next());
-        assertThat(it1.hasNext(), is(false));
-        assertThat(map.delete(36), is(true));
-        assertThat(map.delete(10), is(true));
-        assertThat(map.delete(52), is(true));
-        it1.next();
+        assertThat(it.next(), is("First"));
+        assertThat(it.next(), is("Second"));
+        assertThat(it.next(), is("Third"));
+        assertThat(it.hasNext(), is(false));
+        it.next();
+    }
+
+    @Test
+    public void whenHashMapChangeCapacity() {
+        int defaultSize = 16;
+        SimpleHashMap<Integer, String> map = new SimpleHashMap<>();
+        for (int i = 0; i < defaultSize * 2; i++) {
+            assertThat(map.insert(i, Integer.toString(i)), is(true));
+        }
+        for (int i = 0; i < defaultSize * 2; i++) {
+            assertThat(map.get(i), is(Integer.toString(i)));
+        }
     }
 }
