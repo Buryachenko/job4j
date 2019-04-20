@@ -11,6 +11,14 @@ public class Tree<E extends Comparable<E>> implements SimpleTree<E> {
     private Node<E> root;
     private int count = 0;
 
+    public boolean isBinary() {
+        int index = 0;
+        for (E e : this) {
+            index++;
+        }
+        return (index - 1) <= 2;
+    }
+
     @Override
     public boolean add(E parent, E child) {
         if (parent != null && child != null) {

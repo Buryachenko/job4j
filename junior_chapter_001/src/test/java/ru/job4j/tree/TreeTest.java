@@ -13,6 +13,16 @@ import static org.junit.Assert.*;
  */
 public class TreeTest {
     @Test
+    public void whenTreeBeforeAddTwoThatResultTrueAfterAddTwoThatResultFalse() {
+        Tree<Integer> tree = new Tree<>();
+        tree.add(1, 2);
+        tree.add(1, 3);
+        assertThat(tree.isBinary(), is(true));
+        tree.add(1, 4);
+        tree.add(4, 5);
+        assertThat(tree.isBinary(), is(false));
+    }
+    @Test
     public void when6ElFindLastThen6() {
         Tree<Integer> tree = new Tree<>();
         tree.add(1, 2);
