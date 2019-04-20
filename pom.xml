@@ -20,6 +20,7 @@
         <module>chapter_004</module>
 		<module>puzzle</module>
         <module>junior_chapter_001</module>
+        <module>junior_chapter_002</module>
     </modules>
 
     <dependencies>
