@@ -11,41 +11,41 @@ public class Tree<E extends Comparable<E>> implements SimpleTree<E> {
     private Node<E> root;
     private int count = 0;
 
+    public Tree(E parent) {
+        this.root = new Node<>(parent);
+        count++;
+    }
+
     public boolean isBinary() {
-        int index = 0;
-        for (E e : this) {
-            index++;
+        boolean result = true;
+        Queue<Node<E>> data = new LinkedList<>();
+        data.offer(this.root);
+        while (!data.isEmpty()) {
+            Node<E> el = data.poll();
+            if (el.leaves().size() > 2) {
+                result = false;
+                break;
+            }
+            for (Node<E> child : el.leaves()) {
+                data.offer(child);
+            }
         }
-        return (index - 1) <= 2;
+        return result;
     }
 
     @Override
     public boolean add(E parent, E child) {
+        boolean result = false;
         if (parent != null && child != null) {
-            if (root == null) {
-                root = new Node<>(parent);
-                root.add(new Node<>(child));
-                count = count + 2;
-            } else {
                 Optional<Node<E>> pFind = findBy(parent);
                 Optional<Node<E>> cFind = findBy(child);
-                if (pFind.isPresent() && cFind.isPresent()) {
-                    return false;
-                } else if (pFind.isEmpty() && cFind.isEmpty()) {
-                    Node<E> p = new Node<>(parent);
-                    p.add(new Node<>(child));
-                    root.add(p);
-                    count = count + 2;
-                } else if (pFind.isPresent()) {
+                if (pFind.isPresent() && cFind.isEmpty()) {
                     pFind.get().add(new Node<>(child));
                     count++;
-                } else if (pFind.isEmpty()) {
-                    root.add(new Node<>(parent));
-                    count++;
+                    result = true;
                 }
-            }
         }
-        return true;
+        return result;
     }
 
     @Override
