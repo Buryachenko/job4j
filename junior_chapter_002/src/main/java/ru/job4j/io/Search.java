@@ -17,7 +17,7 @@ public class Search {
                 if (child.isDirectory()) {
                     queue.offer(child);
                 } else {
-                    for(String ext : exts) {
+                    for (String ext : exts) {
                         if (child.getName().endsWith(ext)) {
                             result.add(child);
                         }
