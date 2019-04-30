@@ -1,0 +1,18 @@
+
+User:       Привет
+Program:       Да возможно.
+User:       ок
+Program:       Да возможно.
+User:       ок
+Program:       Добрый день !
+User:       стоп
+User:       ок
+User:       ок
+User:       продолжить
+User:       ок
+Program:       Привет !
+User:       ок
+Program:       Светит солнце.
+User:       ок
+Program:       Хорошо.
+User:       закончить
