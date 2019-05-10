@@ -27,16 +27,18 @@ public class ClientTest {
         ByteArrayInputStream in = new ByteArrayInputStream(input.getBytes());
         when(socket.getInputStream()).thenReturn(in);
         when(socket.getOutputStream()).thenReturn(out);
+        ByteArrayInputStream inputConsole = new ByteArrayInputStream(expected.getBytes());
+        System.setIn(inputConsole);
         Client client = new Client(socket);
         client.init();
-        System.out.println(out);
+        System.setIn(System.in);
         assertThat((out.toString()), is(expected));
     }
 
     @Test
     public void whenClientSendHelloAndExit() throws IOException {
         this.testClient(
-                String.format("Hello, dear friend, I'm a oracle.%s%s", LN, LN),
+                String.format("Any message from the server.%s%s", LN, LN),
                 Joiner.on(LN).join(
                         "Hello oracle",
                         "exit",

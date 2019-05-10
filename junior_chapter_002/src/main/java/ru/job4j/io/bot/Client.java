@@ -6,6 +6,8 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.InetAddress;
 import java.net.Socket;
+import java.util.Scanner;
+
 /**
  *
  * @athor Oleg Buryachenko (mailto: ovburyachenko@yandex.ru)
@@ -28,14 +30,15 @@ public class Client {
     public void init() throws IOException {
 	    PrintWriter out = new PrintWriter(this.socket.getOutputStream(), true);
         BufferedReader in = new BufferedReader(new InputStreamReader(this.socket.getInputStream()));
+        Scanner console = new Scanner(System.in);
         do {
-            out.println("Hello oracle");
+            String msg = console.nextLine();
+            out.println(msg);
+            this.work = !"exit".equals(msg);
             String str;
-            while (!(str = in.readLine()).isEmpty()) {
+            while (this.work && !(str = in.readLine()).isEmpty()) {
                 System.out.println(str);
             }
-            out.println("exit");
-            this.work = false;
         } while (this.work);
     }
     
