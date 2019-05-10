@@ -3,7 +3,6 @@ package ru.job4j.io.chat;
 import java.util.function.Consumer;
 
 public class StartUI {
-    private boolean exit = true;
     private final Input input;
     private final Consumer<String> output;
     private final Chat chat;
@@ -16,8 +15,8 @@ public class StartUI {
 
     public void init() {
         do {
-            this.exit = chat.add(input.ask("User: "));
-        } while (this.exit);
+            chat.add(input.ask("User: "));
+        } while (chat.getState() != ChatState.EXIT);
     }
 
     public static void main(String[] args) {

@@ -1,18 +1,15 @@
 
-User:       Привет
-Program:       Да возможно.
-User:       ок
-Program:       Да возможно.
-User:       ок
-Program:       Добрый день !
+User:       День добрый !
+Program:       Нормально.
+User:       Как дела ?
+Program:       Нормально.
 User:       стоп
-User:       ок
-User:       ок
+User:       хорошо
 User:       продолжить
 User:       ок
-Program:       Привет !
+Program:       Что вас интерисует ?
 User:       ок
-Program:       Светит солнце.
+Program:       Я записываю.
 User:       ок
-Program:       Хорошо.
+Program:       Да возможно.
 User:       закончить

@@ -13,12 +13,17 @@ public class Chat {
     private List<String> lines;
     private Random random = new Random();
     private final int range = 10;
-    private enum Console { MESSAGE, STOP }
-    private Console state = Console.MESSAGE;
+    private ChatState state = ChatState.MESSAGE;
     private String pathsLog;
+    private Map<String, Action> actions = new HashMap<>();
+
     public Chat(String pathAsk, String pathLog) {
         this.lines = this.readAllLines(pathAsk);
         this.pathsLog = pathLog;
+        this.actions.put("отправить сообщение", new SendMessage());
+        this.actions.put("стоп", new StopChat());
+        this.actions.put("продолжить", new RunChat());
+        this.actions.put("закончить", new ExitProgram());
     }
 
     private List<String> readAllLines(String path) {
@@ -30,7 +35,7 @@ public class Chat {
         return null;
     }
 
-    private void toWriteLog(String name, String msg) {
+    public void toWriteLog(String name, String msg) {
         try (PrintWriter out = new PrintWriter(new FileOutputStream(this.pathsLog, true))) {
             out.println(name + ":       " + msg);
         } catch (FileNotFoundException e) {
@@ -38,25 +43,31 @@ public class Chat {
         }
     }
 
-    public boolean add(String msg) {
+    public void add(String msg) {
+        this.actions.get(keyAction(msg)).execute(this);
+    }
+
+    private String keyAction(String msg) {
         toWriteLog("User", msg);
-        boolean result = true;
-        if (msg.equals("стоп")) {
-            state = Console.STOP;
-        } else if (msg.equals("продолжить")) {
-            state = Console.MESSAGE;
-        } else if (msg.equals("закончить")) {
-            result = false;
-        } else if (state == Console.MESSAGE) {
-            answerProgram();
+        String result = "отправить сообщение";
+        for (String key : this.actions.keySet()) {
+            if (msg.equals(key)) {
+                result = key;
+                break;
+            }
         }
         return result;
     }
 
-    private void answerProgram() {
-        String msg = this.lines.get(random.nextInt(range));
-        toWriteLog("Program", msg);
-        System.out.println("Program:");
-        System.out.println("    " + msg);
+    public String answerProgram() {
+        return this.lines.get(random.nextInt(range));
+    }
+
+    public void setState(ChatState state) {
+        this.state = state;
+    }
+
+    public ChatState getState() {
+        return this.state;
     }
 }
