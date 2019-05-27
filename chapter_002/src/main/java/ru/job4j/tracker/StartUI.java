@@ -19,10 +19,10 @@ public class StartUI {
     private static final String NAME = "5";
     private static final String EXIT = "6";
     private final Input input;
-    private final Tracker tracker;
+    private final ITracker tracker;
     private final Consumer<String> output;
 
-    public StartUI(Input input, Tracker tracker, Consumer<String> output) {
+    public StartUI(Input input, ITracker tracker, Consumer<String> output) {
         this.input = input;
         this.tracker = tracker;
         this.output = output;

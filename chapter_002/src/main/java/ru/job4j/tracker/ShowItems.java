@@ -12,7 +12,7 @@ public class ShowItems extends BaseAction {
     }
 
     @Override
-    public void execute(Input input, Tracker tracker) {
+    public void execute(Input input, ITracker tracker) {
         System.out.println("--------- Список заявок ---------");
         if (tracker.getPosition() > 0) {
             for (int i = 0; i < tracker.getPosition(); i++) {

@@ -23,7 +23,7 @@ public class ExitProgram implements UserAction {
     }
 
     @Override
-    public void execute(Input input, Tracker tracker) {
+    public void execute(Input input, ITracker tracker) {
         System.out.println("------------ Exit program --------------");
         this.ui.stop();
     }

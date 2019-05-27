@@ -12,7 +12,7 @@ public class UpdateItem extends BaseAction {
     }
 
     @Override
-    public void execute(Input input, Tracker tracker) {
+    public void execute(Input input, ITracker tracker) {
         System.out.println("--------- Изменение заявки ---------");
         String id = input.ask("Введите индефикатор заявки :");
         String name = input.ask("Введите имя заявки :");

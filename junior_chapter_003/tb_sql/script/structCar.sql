@@ -41,18 +41,16 @@ INSERT INTO motor(name)		 VALUES('M_NOT_USE_2');
 INSERT INTO gearbox(name)	 VALUES('G_NOT_USE_2');
 
 INSERT INTO car(name, body_id, motor_id, gearbox_id)
-							 VALUES('Москвич-407', 1, 1, 1);
+							 VALUES('Moskvich-407', 1, 1, 1);
 
 INSERT INTO car(name, body_id, motor_id, gearbox_id)
-							 VALUES('ВАЗ-2101', 2, 2, 2);
+							 VALUES('LADA-2101', 2, 2, 2);
 
--- 1. Вывести список всех машин и все привязанные к ним детали.
 SELECT car.name AS car, "body".name AS "body", motor.name AS motor, gearbox.name AS gearbox
 FROM car LEFT JOIN "body" on car.body_id = "body".id 
 		 LEFT JOIN motor on car.motor_id = motor.id
 		 LEFT JOIN gearbox on car.gearbox_id = gearbox.id;
 
--- 2. Вывести отдельно детали, которые не используются в машине, кузова, двигатели, коробки передач.
 SELECT "body".name AS "body", motor.name AS motor, gearbox.name AS gearbox
 FROM car RIGHT JOIN "body" on car.body_id = "body".id
 		 FULL JOIN motor on car.motor_id = motor.id

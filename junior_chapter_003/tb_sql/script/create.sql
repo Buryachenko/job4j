@@ -1,57 +1,57 @@
 create table role (
-	id						      serial primary key,
-	name					      varchar(100));
+	id						serial primary key,
+	name					varchar(100));
 
 create table "user" (
-	id						      serial primary key,
-	login					      varchar(100) not null,
-	password				    varchar(100) not null,
-	role_id					    int not null references role(id));
+	id						serial primary key,
+	login					varchar(100) not null,
+	password				varchar(100) not null,
+	role_id					int not null references role(id));
 
 create table rules (
-	id						      serial primary key,
-	name					      varchar(100),
-	readInfo				    boolean,
-	putItem					    boolean,
-	changeItem				  boolean,
-	deleteItem				  boolean,
-	commentItem				  boolean,
-	configure				    boolean);
+	id						serial primary key,
+	name					varchar(100),
+	readInfo				boolean,
+	putItem					boolean,
+	changeItem				boolean,
+	deleteItem				boolean,
+	commentItem				boolean,
+	configure				boolean);
 
 create table role_rules (
-	id						      serial primary key,
-	role_id					    int references role(id),
-	rules_id				    int references rules(id));
+	id						serial primary key,
+	role_id					int references role(id),
+	rules_id				int references rules(id));
 
 create table category (
-	id						      serial primary key,
-	name					      varchar(100));
+	id						serial primary key,
+	name					varchar(100));
 
 create table attachs (
-	id						      serial primary key,
-	name					      varchar(1000),
-	pathFile				    varchar(1000),
-	ts						      timestamp not null default current_timestamp);
+	id						serial primary key,
+	name					varchar(1000),
+	pathFile				varchar(1000),
+	ts						timestamp not null default current_timestamp);
 
 create table "state" (
-	id						      serial primary key,
-	valid					      boolean);
+	id						serial primary key,
+	valid					boolean);
 
 create table item (
-	id						      serial primary key,
-	name					      varchar(1000),
-	info					      text,
-	user_id					    int references "user"(id),
-	category_id				  int references category(id),
-	attachs_id				  int references attachs(id),
-	state_id				    int references "state"(id),
-	ts						      timestamp not null default current_timestamp);
+	id						serial primary key,
+	name					varchar(1000),
+	info					text,
+	user_id					int references "user"(id),
+	category_id				int references category(id),
+	attachs_id				int references attachs(id),
+	state_id				int references "state"(id),
+	ts						timestamp not null default current_timestamp);
 
 create table comments (
-	id						      serial primary key,
-	content					    text,
-	item_id					    int references item(id),
-	ts						      timestamp not null default current_timestamp);
+	id						serial primary key,
+	content					text,
+	item_id					int references item(id),
+	ts						timestamp not null default current_timestamp);
 
 insert into role (name) values ('root');
 insert into role (name) values ('user');
