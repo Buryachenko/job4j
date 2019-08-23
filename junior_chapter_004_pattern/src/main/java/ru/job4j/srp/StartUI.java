@@ -1,5 +1,5 @@
 package ru.job4j.srp;
-
+import java.util.Map;
 import java.util.function.Consumer;
 
 /**
@@ -31,9 +31,10 @@ public class StartUI {
     }
 
     public static void main(String[] args) {
+        Calculator calc = new Calculator();
         new StartUI(
                 new ConsoleInput(),
-                new InteractCalc(),
+                new InteractCalc(Map.of("+", (x, y)-> {calc.add(x, y); return calc.getResult();})),
                 System.out :: println
         ).init();
     }

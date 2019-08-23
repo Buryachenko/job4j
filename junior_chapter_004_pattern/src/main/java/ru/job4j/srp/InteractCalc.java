@@ -18,6 +18,10 @@ public class InteractCalc {
         printInfo();
     }
 
+    public InteractCalc(Map<String, BinaryOperator<Double>> functions) {
+        this.functions = functions;
+    }
+
     public void execute(Input input, StartUI ui) {
         double arg = 0.0;
         try {
