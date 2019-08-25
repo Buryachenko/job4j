@@ -1,42 +1,41 @@
 package ru.job4j.srp;
-
-import java.util.HashMap;
 import java.util.Map;
-import java.util.function.BinaryOperator;
 
+/**
+ *  Class Класс обеспечивает пользовательский ввод для калькулятора
+ *  @author Buryachenko
+ *  @since 25.08.2019
+ *  @version 1
+ */
 public class InteractCalc {
     private String operation = "+";
     private double result = 0.0;
-    private Map<String, BinaryOperator<Double>> functions = new HashMap<>();
-    private Calculator calc = new Calculator();
+    private int numberArgs = 2;
+    private final Map<String, FunctionCalc> config;
 
-    public InteractCalc() {
-        this.functions.put("+", (x, y)-> {this.calc.add(x, y); return this.calc.getResult();});
-        this.functions.put("-", (x, y)-> {this.calc.subtract(x, y); return this.calc.getResult();});
-        this.functions.put("*", (x, y)-> {this.calc.multiple(x, y); return this.calc.getResult();});
-        this.functions.put("/", (x, y)-> {this.calc.div(x, y); return this.calc.getResult();});
+    public InteractCalc(ConfigCalc config) {
+        this.config = config.functions();
         printInfo();
-    }
-
-    public InteractCalc(Map<String, BinaryOperator<Double>> functions) {
-        this.functions = functions;
     }
 
     public void execute(Input input, StartUI ui) {
         double arg = 0.0;
         try {
-            arg = Double.parseDouble(input.ask("Enter arg :"));
+            if (numberArgs > 1) {
+                arg = Double.parseDouble(input.ask("Enter arg :"));
+            }
         } catch (NumberFormatException e) {
             System.out.println("Not available number.");
             return;
         }
-        this.result = this.functions.get(this.operation).apply(this.result, arg);
+        this.result = this.config.get(this.operation).getFunction().apply(this.result, arg);
         repeatOperation(input, ui);
     }
 
     private void repeatOperation(Input input, StartUI ui) {
         this.operation = "";
-        while (!this.functions.keySet().stream().anyMatch(ch -> ch.equals(this.operation)) ) {
+        this.numberArgs = 2;
+        while ("".equals(this.operation)) {
             this.operation = input.ask("Enter operation :");
             if ("=".equals(this.operation)) {
                 System.out.println(this.result);
@@ -52,19 +51,21 @@ public class InteractCalc {
                 ui.stop();
                 break;
             }
+            if (this.config.keySet().stream().anyMatch(this.operation :: equals)) {
+                this.numberArgs = this.config.get(this.operation).numberArgs();
+            } else {
+                this.operation = "";
+            }
         }
     }
 
-    public void addFunction(String name, BinaryOperator<Double> function) {
-        this.functions.put(name, function);
-    }
-
     public void printInfo() {
-        System.out.println( String.format("%s %s %s %s",
-                "Simple calculation. Available operations:",
-                                "\"+\", \"-\", \"*\", \"/\", \"=\".",
-                                "All clean \"c\".",
-                                "Exit program \"e\".")
+        System.out.println( String.format("%s %s %s %s %s",
+                "Simple calculation.",
+                "All clean \"c\".",
+                "Exit program \"e\".",
+                "Available operations:",
+                String.join(", ", this.config.keySet().toArray(new String[0])))
         );
     }
 }
