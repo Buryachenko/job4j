@@ -8,7 +8,7 @@ import java.util.Map;
  *  @version 1
  */
 public class InteractCalc {
-    private String operation = "+";
+    private String operation = "";
     private double result = 0.0;
     private int numberArgs = 2;
     private final Map<String, FunctionCalc> config;
@@ -28,7 +28,7 @@ public class InteractCalc {
             System.out.println("Not available number.");
             return;
         }
-        this.result = this.config.get(this.operation).getFunction().apply(this.result, arg);
+        this.result = "".equals(this.operation) ? arg : this.config.get(this.operation).getFunction().apply(this.result, arg);
         repeatOperation(input, ui);
     }
 
@@ -44,7 +44,7 @@ public class InteractCalc {
             if ("c".equals(this.operation)) {
                 printInfo();
                 this.result = 0.0;
-                this.operation = "+";
+                this.operation = "";
                 break;
             }
             if ("e".equals(operation)) {
