@@ -46,4 +46,9 @@ public class Food {
     public void changeDisscount(double disscount) {
         this.disscount = disscount;
     }
+
+    public long valid() {
+        long create = this.createDate().getTime();
+        return  (System.currentTimeMillis() - create) * 100 / (this.expaireDate().getTime() - create);
+    }
 }

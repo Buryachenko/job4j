@@ -4,6 +4,7 @@ import org.junit.Test;
 import static org.hamcrest.core.Is.is;
 import java.text.ParseException;
 import java.util.Date;
+import java.util.Map;
 
 import static org.junit.Assert.*;
 
@@ -27,14 +28,31 @@ public class ControlQualityTest {
 
     @Test
     public void whenFoodPutToStorage() throws ParseException {
-        ControlQuality cntr = new ControlQuality();
+        ControlQuality cntr = new ControlQuality(
+                Map.of("Warehouse", new Warehouse(),
+                        "Shop", new Shop(),
+                        "Trash", new Trash()
+                )
+        );
         cntr.put("Good", new Food("Хлеб",expGood, createDate, 100.0, 0.0));
         cntr.put("Middle", new Food("Молоко", expMiddle, createDate, 150.0, 0.0));
         cntr.put("Disscount", new Food("Творог", expDisscount, createDate, 190.0, 0.0));
         cntr.put("Bad", new Food("Кефир", expTrash, createDate, 300, 0.0));
-        assertThat(cntr.warehouse().foods().get("Good").name(), is("Хлеб"));
-        assertThat(cntr.shop().foods().get("Middle").name(), is("Молоко"));
-        assertThat(cntr.shop().foods().get("Disscount").disscount(), is(50.0));
-        assertThat(cntr.trash().foods().get("Bad").name(), is("Кефир"));
+        assertThat(cntr.get("Warehouse").foods().get("Good").name(), is("Хлеб"));
+        assertThat(cntr.get("Shop").foods().get("Middle").name(), is("Молоко"));
+        assertThat(cntr.get("Shop").foods().get("Disscount").disscount(), is(50.0));
+        assertThat(cntr.get("Trash").foods().get("Bad").name(), is("Кефир"));
+    }
+
+    @Test
+    public void whenFoodPutToSingleStorage() throws ParseException {
+        ControlQuality cntr = new ControlQuality(
+                Map.of("Warehouse", new Warehouse())
+        );
+        cntr.put("Good", new Food("Хлеб",expGood, createDate, 100.0, 0.0));
+        cntr.put("Middle", new Food("Молоко", expMiddle, createDate, 150.0, 0.0));
+        cntr.put("Disscount", new Food("Творог", expDisscount, createDate, 190.0, 0.0));
+        cntr.put("Bad", new Food("Кефир", expTrash, createDate, 300, 0.0));
+        assertThat(cntr.get("Warehouse").foods().get("Good").name(), is("Хлеб"));
     }
 }
