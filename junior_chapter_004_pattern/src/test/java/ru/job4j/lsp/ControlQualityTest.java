@@ -55,4 +55,33 @@ public class ControlQualityTest {
         cntr.put("Bad", new Food("Кефир", expTrash, createDate, 300, 0.0));
         assertThat(cntr.get("Warehouse").foods().get("Good").name(), is("Хлеб"));
     }
+
+    @Test
+    public void whenFoodPutToSingleStorageWarehouseDecorator() throws ParseException {
+        ControlQuality cntr = new ControlQuality(
+                Map.of("WarehouseDecorator", new WarehouseDecorator())
+        );
+        cntr.put("Good", new Food("Хлеб",expGood, createDate, 100.0, 0.0));
+        assertThat(cntr.get("WarehouseDecorator").foods().get("Good").name(), is("Хлеб"));
+    }
+
+    @Test
+    public void whenFoodShipInReproduct() throws ParseException {
+        Reproduct reproduct = new Reproduct();
+        ControlQuality cntr = new ControlQuality(
+                Map.of("Reproduct", reproduct, "TrashDecorator", new TrashDecorator(reproduct))
+        );
+        cntr.put("Bad", new FoodDecorator("Кефир", expTrash, createDate, 300, 0.0, true));
+        assertThat(cntr.get("Reproduct").foods().get("Bad").name(), is("Кефир"));
+    }
+
+    @Test
+    public void whenFoodShipInReproductAndInStorageWithLowTemperature() throws ParseException {
+        LowTemperatureStorage ltStorage = new LowTemperatureStorage();
+        ControlQuality cntr = new ControlQuality(
+                Map.of("LowTemperatureStorage", ltStorage, "TrashDecorator", new TrashDecorator(ltStorage))
+        );
+        cntr.put("Bad", new FoodDecorator("Кефир", expTrash, createDate, 300, 0.0, true));
+        assertThat(cntr.get("LowTemperatureStorage").foods().get("Bad").name(), is("Кефир"));
+    }
 }
