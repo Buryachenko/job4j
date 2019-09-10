@@ -1,5 +1,7 @@
 package ru.job4j.lsp;
+
 import java.util.Map;
+import java.util.stream.Collectors;
 
 public class ControlQuality {
 
@@ -15,5 +17,16 @@ public class ControlQuality {
 
     public IStorage get(String key) {
         return this.map.get(key);
+    }
+
+    public void resort() {
+        Map<String, Food> foods = this.map.values().stream().map(IStorage::foods)
+                .flatMap(map -> map.entrySet().stream())
+                .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
+        clearFoods();
+        foods.forEach(this::put);
+    }
+    public void clearFoods() {
+        this.map.values().forEach(storage -> storage.foods().clear());
     }
 }

@@ -84,4 +84,52 @@ public class ControlQualityTest {
         cntr.put("Bad", new FoodDecorator("Кефир", expTrash, createDate, 300, 0.0, true));
         assertThat(cntr.get("LowTemperatureStorage").foods().get("Bad").name(), is("Кефир"));
     }
+
+    @Test
+    public void whenFoodPutToStorageAndNewResortFood() throws ParseException {
+        ControlQuality cntr = new ControlQuality(
+                Map.of("Warehouse", new Warehouse(),
+                        "Shop", new Shop(),
+                        "Trash", new Trash()
+                )
+        );
+        cntr.put("Good", new Food("Хлеб",expGood, createDate, 100.0, 0.0));
+        cntr.put("Middle", new Food("Молоко", expMiddle, createDate, 150.0, 0.0));
+        cntr.put("Disscount", new Food("Творог", expDisscount, createDate, 190.0, 0.0));
+        cntr.put("Bad", new Food("Кефир", expTrash, createDate, 300, 0.0));
+        assertThat(cntr.get("Warehouse").foods().get("Good").name(), is("Хлеб"));
+        assertThat(cntr.get("Shop").foods().get("Middle").name(), is("Молоко"));
+        assertThat(cntr.get("Shop").foods().get("Disscount").disscount(), is(50.0));
+        assertThat(cntr.get("Trash").foods().get("Bad").name(), is("Кефир"));
+
+        cntr.resort();
+
+        assertThat(cntr.get("Warehouse").foods().get("Good").name(), is("Хлеб"));
+        assertThat(cntr.get("Shop").foods().get("Middle").name(), is("Молоко"));
+        assertThat(cntr.get("Shop").foods().get("Disscount").disscount(), is(50.0));
+        assertThat(cntr.get("Trash").foods().get("Bad").name(), is("Кефир"));
+    }
+
+    @Test
+    public void whenFoodPutToStorageAndClearFood() throws ParseException {
+        ControlQuality cntr = new ControlQuality(
+                Map.of("Warehouse", new Warehouse(),
+                        "Shop", new Shop(),
+                        "Trash", new Trash()
+                )
+        );
+        cntr.put("Good", new Food("Хлеб",expGood, createDate, 100.0, 0.0));
+        cntr.put("Middle", new Food("Молоко", expMiddle, createDate, 150.0, 0.0));
+        cntr.put("Disscount", new Food("Творог", expDisscount, createDate, 190.0, 0.0));
+        cntr.put("Bad", new Food("Кефир", expTrash, createDate, 300, 0.0));
+        assertThat(cntr.get("Warehouse").foods().size(), is(1));
+        assertThat(cntr.get("Shop").foods().size(), is(2));
+        assertThat(cntr.get("Trash").foods().size(), is(1));
+
+        cntr.clearFoods();
+
+        assertThat(cntr.get("Warehouse").foods().size(), is(0));
+        assertThat(cntr.get("Shop").foods().size(), is(0));
+        assertThat(cntr.get("Trash").foods().size(), is(0));
+    }
 }
