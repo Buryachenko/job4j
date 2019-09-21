@@ -29,8 +29,8 @@ public class Cache {
 
     private FileBuffer get(String fileName) {
         FileBuffer buffer = null;
-        if (this.map.keySet().stream().anyMatch(key-> key.equals(fileName))) {
-            SoftReference ref = this.map.get(fileName);
+        SoftReference ref = this.map.get(fileName);
+        if (ref != null) {
             buffer = (FileBuffer) ref.get();
             if (buffer == null) {
                 this.map.remove(fileName);
