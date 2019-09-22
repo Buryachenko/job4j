@@ -19,7 +19,7 @@ public class RectangleMove implements Runnable {
 
     @Override
     public void run() {
-        while (true) {
+        while (!Thread.currentThread().isInterrupted()) {
             double tekX = this.rect.getX();
             double tekY = this.rect.getY();
             if (this.limitX <= tekX || 0 >= tekX) {
@@ -33,7 +33,7 @@ public class RectangleMove implements Runnable {
             try {
                 Thread.sleep(50);
             } catch (InterruptedException e) {
-                e.printStackTrace();
+                Thread.currentThread().interrupt();
             }
         }
     }
