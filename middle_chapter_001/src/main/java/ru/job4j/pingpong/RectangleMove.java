@@ -4,12 +4,10 @@ import javafx.scene.shape.Rectangle;
 
 public class RectangleMove implements Runnable {
     private final Rectangle rect;
-    private int limitX;
-    private int limitY;
-    private int signX = 1;
-    private int signY = 1;
-    private double dx = 1.0f;
-    private double dy = 1.0f;
+    private final int limitX;
+    private final int limitY;
+    private final double dx = 1.0f;
+    private final double dy = 1.0f;
 
     public RectangleMove(Rectangle rect, int limitX, int limitY) {
         this.rect = rect;
@@ -19,17 +17,20 @@ public class RectangleMove implements Runnable {
 
     @Override
     public void run() {
+        int signX = 1;
+        int signY = 1;
+
         while (!Thread.currentThread().isInterrupted()) {
             double tekX = this.rect.getX();
             double tekY = this.rect.getY();
             if (this.limitX <= tekX || 0 >= tekX) {
-                this.signX = -1 * this.signX;
+                signX = -1 * signX;
             }
             if (this.limitY <= tekY || 0 >= tekY) {
-                this.signY = -1 * this.signY;
+                signY = -1 * signY;
             }
-            this.rect.setX(tekX + this.signX * this.dx);
-            this.rect.setY(tekY + this.signY * this.dy);
+            this.rect.setX(tekX + signX * this.dx);
+            this.rect.setY(tekY + signY * this.dy);
             try {
                 Thread.sleep(50);
             } catch (InterruptedException e) {
