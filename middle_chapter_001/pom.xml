@@ -10,6 +10,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>middle_chapter_001</artifactId>
+
     <dependencies>
         <!-- https://mvnrepository.com/artifact/commons-cli/commons-cli -->
         <dependency>
@@ -22,6 +23,11 @@
             <artifactId>jcip-annotations</artifactId>
             <version>1.0</version>
         </dependency>
+        <dependency>
+            <groupId>ru.job4j</groupId>
+            <artifactId>junior_chapter_001</artifactId>
+            <version>2.0</version>
+            <scope>java</scope>
+        </dependency>
     </dependencies>
-
 </project>
