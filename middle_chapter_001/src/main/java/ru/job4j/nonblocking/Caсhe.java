@@ -13,12 +13,11 @@ public class Caсhe {
 
     public void update(Base model) {
         this.map.computeIfPresent(model.id(), (k,v) -> {
-                    if (model.version() == Objects.requireNonNull(v.get()).version()) {
-                        model.changeVersion();
-                        return new SoftReference<>(model);
-                    } else {
+                    if (model.version() != Objects.requireNonNull(v.get()).version()) {
                         throw new RuntimeException("Not update!");
                     }
+                    model.changeVersion();
+                    return new SoftReference<>(model);
                 }
         );
     }
