@@ -6,7 +6,9 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.Calendar;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.function.Function;
 import static ru.job4j.servlets.Message.Type.*;
 
@@ -29,7 +31,7 @@ public class UserServlet extends HttpServlet {
     }
 
     @Override
-    public void doPost(HttpServletRequest req, HttpServletResponse resp) {
+    public void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         User user = new User();
         user.setName(req.getParameter("name"));
         user.setLogin(req.getParameter("login"));
@@ -44,26 +46,60 @@ public class UserServlet extends HttpServlet {
             user.setId(user.hashCode());
         }
         this.dispatch.get(type).apply(user);
+        doGet(req, resp);
     }
 
     @Override
-    public void doGet(HttpServletRequest req, HttpServletResponse res) throws IOException {
-
-        res.setContentType("text/plain");
-        PrintWriter writer = new PrintWriter(res.getOutputStream());
-        List<User> users = this.logic.users();
-        writer.append("List of users:").append(System.lineSeparator());
-        if (users.size() > 0) {
-            users.forEach(u -> writer.append(u.toString()));
-        } else {
-            writer.append("1. The list is empty.").append(System.lineSeparator());
-            writer.append("2. POST request example: curl -d \"action=[add or update or delete]");
-            writer.append("&id=[int number]");
-            writer.append("&name=[Name]");
-            writer.append("&login=[Login]");
-            writer.append("&email=[Email]");
-            writer.append("-X POST http://localhost:8080/items/users");
-        }
+    public void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+        StringBuilder tableUsers = new StringBuilder("<table border-color = 'blue' border = '1'>");
+        tableUsers.append("<caption></caption>");
+        tableUsers.append(  "<tr>" +
+                "<th>ID</th>" +
+                "<th>NAME</th>" +
+                "<th>LOGIN</th>" +
+                "<th>EMAIL</th>" +
+                "<th>CREATE DATE</th>" +
+                "<th></th>" +
+                "<th></th>" +
+                "</tr>"
+        );
+        this.logic.users().forEach(user -> tableUsers
+                .append("<tr>" +
+                        "<td>" + user.getId() + "</td>" +
+                        "<td>" + user.getName() + "</td>" +
+                        "<td>" + user.getLogin() + "</td>" +
+                        "<td>" + user.getEmail() + "</td>" +
+                        "<td>" + user.getCreateDate() + "</td>" +
+                        "<td> <input type = 'submit' formaction = '"+ req.getContextPath() +
+                        "/list?id=" + user.getId() + "' method='post' name = 'action' value = 'DELETE'></td>" +
+                        "<td> <input type = 'submit' formaction = '"+ req.getContextPath() +
+                        "/edit?id=" + user.getId() + "' method='get' name = 'action' value = 'EDIT'</td>" +
+                        "</tr>"));
+        tableUsers.append("</table>");
+        resp.setContentType("text/html");
+        PrintWriter writer = new PrintWriter(resp.getOutputStream());
+        writer.append("<!DOCTYPE html" +
+                "<html lang = \"en\">" +
+                "<head>" +
+                "<meta charset = \"UTF-8\">" +
+                "<title>Users</title>" +
+                "<style>" +
+                "h1 {" +
+                "color : blue;" +
+                "border-color: blue white;" +
+                "border-style: solid;}" +
+                "</style>" +
+                "</head>" +
+                "<body>" +
+                "<p><h1>USER INFORMATION</h1></p>" +
+                "<form action = '"+ req.getContextPath()+ "/list' method='post'>" +
+                tableUsers.toString() + "<br>" +
+                "<input type = 'submit' value = 'ADD NEW USER' formaction = '" + req.getContextPath() +
+                "/create' method='post'>" +
+                "</form>" +
+                "</body>" +
+                "</html>"
+        );
         writer.flush();
     }
 }
