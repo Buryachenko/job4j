@@ -5,7 +5,7 @@ import java.util.function.Function;
 
 public class ValidateService {
     private final MemoryStore logic = MemoryStore.getInstance();
-    private final static ValidateService instance = new ValidateService();
+    private static final ValidateService instance = new ValidateService();
 
     private ValidateService() {
     }

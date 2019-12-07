@@ -1,9 +1,10 @@
 package ru.job4j.servlets;
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class MemoryStore implements Store {
-    private final SortedSet<User> users = Collections.synchronizedSortedSet(new TreeSet<>(Comparator.comparingInt(User::getId)));
-    private final static MemoryStore instance = new MemoryStore();
+    private final Map<Integer, User> users = new ConcurrentHashMap<>();
+    private static final  MemoryStore instance = new MemoryStore();
 
     private MemoryStore() {
     }
@@ -14,28 +15,26 @@ public class MemoryStore implements Store {
 
     @Override
     public boolean add(User user) {
-        return this.users.add(user);
+        return Objects.equals(this.users.put(user.getId(), user), user);
     }
 
     @Override
     public boolean update(User user) {
-        return delete(user) && this.users.add(user);
+        return Objects.equals(this.users.put(user.getId(), user), user);
     }
 
     @Override
     public boolean delete(User user) {
-        Optional<User> current = findById(user.getId());
-        current.ifPresent(this.users::remove);
-        return current.isPresent();
+        return !Objects.equals(this.users.remove(user.getId()), null);
     }
 
     @Override
     public Optional<User> findById(int id) {
-        return this.users.stream().filter(user -> user.getId() == id).findFirst();
+        return Optional.of(this.users.get(id));
     }
 
     @Override
     public List<User> findAll() {
-      return new ArrayList<>(this.users);
+      return new ArrayList<>(this.users.values());
     }
 }
