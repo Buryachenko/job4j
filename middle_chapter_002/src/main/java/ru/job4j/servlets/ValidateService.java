@@ -4,7 +4,8 @@ import java.util.List;
 import java.util.function.Function;
 
 public class ValidateService {
-    private final MemoryStore logic = MemoryStore.getInstance();
+    //private final Store logic = MemoryStore.getInstance();
+    private final Store logic = DbStore.getInstance();
     private static final ValidateService instance = new ValidateService();
 
     private ValidateService() {
