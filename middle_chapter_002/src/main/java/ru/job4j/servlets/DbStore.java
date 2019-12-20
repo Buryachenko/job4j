@@ -30,24 +30,56 @@ public class DbStore implements Store {
 
     @Override
     public boolean update(User user) {
-        return false;
+        String sql = String.format("%s %s %s %s %s %s %s %s%s%s",
+                "UPDATE",
+                "UsersDbStore",
+                "SET id_user    = ?,",
+                "name           = ?,",
+                "login          = ?,",
+                "email          = ?,",
+                "createDate     = ?",
+                "WHERE  id_user = \'", user.getId(), "\'");
+        executeSQL(sql, user);
+        return true;
     }
 
     @Override
     public boolean delete(User user) {
-        return false;
+        String sql = String.format("%s %s %s%s%s",
+                "DELETE FROM",
+                "UsersDbStore",
+                "WHERE  id_user = \'", user.getId(), "\'");
+        executeSQL(sql);
+        return true;
     }
 
     @Override
     public Optional<User> findById(int id) {
-        return Optional.empty();
+        String sql = String.format("%s %s %s%s%s",
+                "SELECT * FROM", "UsersDbStore", "WHERE id_user = \'", id, "\'");
+        User user = new User();
+        try (Connection connection = SOURCE.getConnection()) {
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                user.setId(Integer.valueOf(rs.getString("id_user")));
+                user.setName(rs.getString("name"));
+                user.setLogin(rs.getString("login"));
+                user.setEmail(rs.getString("email"));
+                user.setCreateDate(rs.getString("createDate"));
+            }
+            rs.close();
+        } catch (SQLException e) {
+            LOG.error(e.getMessage(), e);
+        }
+        return Optional.of(user);
     }
 
     @Override
     public boolean add(User user) {
         String sql = String.format("%s %s %s %s",
                 "INSERT INTO",
-                "UserDbStore",
+                "UsersDbStore",
                 "(id_user, name, login, email, createDate)",
                 "VALUES (?, ?, ?, ?, ?)");
         executeSQL(sql, user);
@@ -56,15 +88,13 @@ public class DbStore implements Store {
 
     @Override
     public List<User> findAll() {
-        return getUsers(executeQuerySQL(String.format("%s %s", "SELECT * FROM", "UserDbStore")));
-    }
-
-    private List<User> getUsers(ResultSet rs) {
         List<User> users = new ArrayList<>();
-        try {
+        try (Connection connection = SOURCE.getConnection()) {
+            PreparedStatement ps = connection.prepareStatement(String.format("%s %s", "SELECT * FROM", "UsersDbStore"));
+            ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 User user = new User();
-                user.setId(Integer.valueOf(rs.getString("id_item")));
+                user.setId(Integer.valueOf(rs.getString("id_user")));
                 user.setName(rs.getString("name"));
                 user.setLogin(rs.getString("login"));
                 user.setEmail(rs.getString("email"));
@@ -114,15 +144,5 @@ public class DbStore implements Store {
         } catch (SQLException e) {
             LOG.error(e.getMessage(), e);
         }
-    }
-
-    private ResultSet executeQuerySQL(String sql) {
-        try (Connection connection = SOURCE.getConnection()) {
-                PreparedStatement ps = connection.prepareStatement(sql);
-                return ps.executeQuery();
-        } catch (SQLException e) {
-            LOG.error(e.getMessage(), e);
-        }
-        return null;
     }
 }
