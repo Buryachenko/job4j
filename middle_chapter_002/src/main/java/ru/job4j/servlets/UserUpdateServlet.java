@@ -5,6 +5,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Optional;
 
 public class UserUpdateServlet extends HttpServlet {
 
@@ -18,7 +19,9 @@ public class UserUpdateServlet extends HttpServlet {
 
     @Override
     public void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
-        resp.setContentType("text/html");
-        req.getRequestDispatcher("edit.jsp").forward(req, resp);
+        int id = Integer.valueOf(req.getParameter("id"));
+        Optional<User> opt = ValidateService.getInstance().getUser(id);
+        req.setAttribute("user", opt.orElseGet(User::new));
+        req.getRequestDispatcher("/WEB-INF/view/edit.jsp").forward(req, resp);
     }
 }

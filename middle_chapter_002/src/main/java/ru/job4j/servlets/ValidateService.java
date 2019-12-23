@@ -1,6 +1,7 @@
 package ru.job4j.servlets;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.function.Function;
 
 public class ValidateService {
@@ -29,5 +30,9 @@ public class ValidateService {
 
     public List<User> users() {
         return this.logic.findAll();
+    }
+
+    public Optional<User> getUser(int id) {
+        return this.logic.findById(id);
     }
 }
