@@ -58,9 +58,9 @@ public class DbStore implements Store {
         String sql = String.format("%s %s %s%s%s",
                 "SELECT * FROM", "UsersDbStore", "WHERE id_user = \'", id, "\'");
         User user = new User();
-        try (Connection connection = SOURCE.getConnection()) {
-            PreparedStatement ps = connection.prepareStatement(sql);
-            ResultSet rs = ps.executeQuery();
+        try (Connection connection = SOURCE.getConnection();
+             PreparedStatement ps = connection.prepareStatement(sql);
+             ResultSet rs = ps.executeQuery()) {
             while (rs.next()) {
                 user.setId(Integer.valueOf(rs.getString("id_user")));
                 user.setName(rs.getString("name"));
@@ -68,7 +68,6 @@ public class DbStore implements Store {
                 user.setEmail(rs.getString("email"));
                 user.setCreateDate(rs.getString("createDate"));
             }
-            rs.close();
         } catch (SQLException e) {
             LOG.error(e.getMessage(), e);
         }
@@ -89,9 +88,9 @@ public class DbStore implements Store {
     @Override
     public List<User> findAll() {
         List<User> users = new ArrayList<>();
-        try (Connection connection = SOURCE.getConnection()) {
+        try (Connection connection = SOURCE.getConnection();
             PreparedStatement ps = connection.prepareStatement(String.format("%s %s", "SELECT * FROM", "UsersDbStore"));
-            ResultSet rs = ps.executeQuery();
+            ResultSet rs = ps.executeQuery()) {
             while (rs.next()) {
                 User user = new User();
                 user.setId(Integer.valueOf(rs.getString("id_user")));
@@ -101,7 +100,6 @@ public class DbStore implements Store {
                 user.setCreateDate(rs.getString("createDate"));
                 users.add(user);
             }
-            rs.close();
         } catch (SQLException e) {
             LOG.error(e.getMessage(), e);
         }
@@ -122,25 +120,23 @@ public class DbStore implements Store {
     }
 
     private void executeSQL(String sql) {
-        try (Connection connection = SOURCE.getConnection()){
-             PreparedStatement ps = connection.prepareStatement(sql);
+        try (Connection connection = SOURCE.getConnection();
+             PreparedStatement ps = connection.prepareStatement(sql)){
              ps.execute();
-             ps.close();
         } catch (SQLException e) {
             LOG.error(e.getMessage(), e);
         }
     }
 
     private void executeSQL(String sql, User user) {
-        try (Connection connection = SOURCE.getConnection()){
-                PreparedStatement ps = connection.prepareStatement(sql);
+        try (Connection connection = SOURCE.getConnection();
+                PreparedStatement ps = connection.prepareStatement(sql)){
                 ps.setString(1, String.valueOf(user.getId()));
                 ps.setString(2, user.getName());
                 ps.setString(3, user.getLogin());
                 ps.setString(4, user.getEmail());
                 ps.setString(5, user.getCreateDate());
                 ps.execute();
-                ps.close();
         } catch (SQLException e) {
             LOG.error(e.getMessage(), e);
         }
